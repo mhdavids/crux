@@ -1,0 +1,1462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>The Crux</title>
+    <!-- Link to Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Enhanced CSS styles */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        h1 {
+            margin-top: 30px;
+            font-size: 36px;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+        form h2 {
+            margin-top: 0;
+            font-size: 28px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        select, input[type="text"], input[type="url"], input[type="email"], input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .argument-forms {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 15px;
+            justify-content: space-between;
+        }
+
+        .argument-form-card {
+            background-color: #fff;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            flex: 1 1 calc(30% - 10px);
+            cursor: pointer;
+            transition: border-color 0.3s, transform 0.2s;
+            position: relative;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            min-width: 200px;
+        }
+
+        .argument-form-card:hover {
+            border-color: #007bff;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
+        }
+
+        .argument-form-card.selected {
+            border-color: #007bff;
+            box-shadow: 0 0 10px rgba(0, 123, 255, 0.3);
+            background-color: #e9f5ff;
+        }
+
+        .argument-form-card p {
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            color: #333;
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .variable-box {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #fff;
+            font-weight: bold;
+            font-size: 14px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+
+        /* Colors for variable boxes */
+        .variable-A {
+            background-color: red;
+        }
+
+        .variable-B {
+            background-color: green;
+        }
+
+        .variable-C {
+            background-color: blue;
+        }
+
+        .variable-Z {
+            background-color: purple;
+        }
+
+        .placeholders {
+            margin-top: 20px;
+        }
+
+        .placeholder-input {
+            margin-bottom: 15px;
+        }
+
+        .placeholder-input input, .placeholder-input textarea {
+            width: calc(100% - 20px);
+            margin-top: 5px;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        button[type="submit"], button {
+            padding: 15px;
+            background-color: #28a745;
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 25px;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        /* Argument List Styling */
+        #argumentsList {
+            margin-top: 50px;
+        }
+
+        .argument {
+            background-color: #fff;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-left: 5px solid #007bff;
+            border-radius: 6px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .argument-header {
+            display: flex;
+            align-items: center;
+        }
+
+        .argument-icon {
+            font-size: 45px;
+            color: #007bff;
+            margin-right: 20px;
+        }
+
+        .argument-title {
+            font-size: 26px;
+            color: #333;
+            margin: 0;
+        }
+
+        .argument-content {
+            margin-top: 20px;
+            font-size: 20px;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .argument-content ol {
+            list-style-position: inside;
+            padding-left: 0;
+        }
+
+        .argument-content li {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .argument-content li.disagreed {
+            background-color: #ffe6e6;
+            text-decoration: line-through;
+        }
+
+        .premise-text {
+            flex: 1;
+            vertical-align: top;
+        }
+
+        .premise-url {
+            display: block;
+            margin-top: 5px;
+            font-size: 14px;
+        }
+
+        .disagree-premise-button {
+            margin-left: 10px;
+            padding: 8px 15px;
+            font-size: 14px;
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            align-self: center;
+        }
+
+        .disagree-premise-button:hover {
+            background-color: #c82333;
+        }
+
+        .endorse-conclusion-button {
+            padding: 12px 25px;
+            font-size: 18px;
+            background-color: #17a2b8;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .endorse-conclusion-button:hover {
+            background-color: #138496;
+        }
+
+        .endorsement-stats {
+            font-size: 16px;
+            color: #555;
+            margin-top: 10px;
+        }
+
+        /* Ranking Options */
+        .ranking-options {
+            margin-top: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .ranking-options label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .ranking-options select {
+            width: auto;
+            padding: 8px 12px;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .argument-form-card {
+                flex: 1 1 calc(48% - 10px);
+                min-width: 150px;
+            }
+
+            .argument-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .argument-icon {
+                margin-bottom: 10px;
+            }
+
+            .argument-title {
+                font-size: 24px;
+            }
+
+            .premise-text {
+                width: 100%;
+            }
+
+            .disagree-premise-button {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+
+            .argument-content li {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .ranking-options {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .ranking-options label {
+                margin-bottom: 5px;
+            }
+        }
+
+        /* Authentication Forms */
+        #authContainer {
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+
+        #authContainer h2 {
+            text-align: center;
+        }
+
+        #authContainer input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        #authContainer button {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 18px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        #authContainer button:hover {
+            background-color: #0056b3;
+        }
+
+        #logoutButton {
+            display: block;
+            margin: 20px auto;
+            background-color: #dc3545;
+            width: auto;
+            padding: 10px 20px;
+        }
+
+        #logoutButton:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>The Crux</h1>
+
+        <!-- User Authentication Forms -->
+        <div id="authContainer">
+            <!-- Registration Form -->
+            <div id="registerForm">
+                <h2>Register</h2>
+                <input type="email" id="registerEmail" placeholder="Email" required>
+                <input type="password" id="registerPassword" placeholder="Password" required>
+                <button onclick="register()">Register</button>
+            </div>
+
+            <!-- Login Form -->
+            <div id="loginForm">
+                <h2>Login</h2>
+                <input type="email" id="loginEmail" placeholder="Email" required>
+                <input type="password" id="loginPassword" placeholder="Password" required>
+                <button onclick="login()">Login</button>
+            </div>
+        </div>
+
+        <!-- Logout Button -->
+        <button id="logoutButton" onclick="logout()" style="display:none;">Logout</button>
+
+        <form id="argumentForm">
+            <h2>Submit Your Argument</h2>
+
+            <label for="categorySelect">Select a Category</label>
+            <select id="categorySelect" required>
+                <option value="">-- Choose a Category --</option>
+                <option value="Politics">Politics</option>
+                <option value="Culture">Culture</option>
+                <option value="Health">Health</option>
+                <option value="History">History</option>
+                <option value="Philosophy">Philosophy</option>
+            </select>
+
+            <!-- Subcategory Select -->
+            <label for="subcategorySelect">Select a Subcategory</label>
+            <select id="subcategorySelect" required>
+                <option value="">-- Choose a Subcategory --</option>
+                <!-- Subcategories will be populated based on the selected category -->
+            </select>
+
+            <label for="claimSelect">Select a Claim</label>
+            <select id="claimSelect" required>
+                <option value="">-- Choose a Claim --</option>
+                <!-- Claims will be populated based on the selected subcategory -->
+            </select>
+
+            <label for="stanceSelect">Your Stance</label>
+            <select id="stanceSelect" required>
+                <option value="">-- Choose Your Stance --</option>
+                <option value="For">For</option>
+                <option value="Against">Against</option>
+            </select>
+
+            <label for="argumentTitle">Argument Title</label>
+            <input type="text" id="argumentTitle" placeholder="Enter argument title" required>
+
+            <div id="argumentFormsContainer">
+                <!-- Argument forms will be displayed here -->
+            </div>
+
+            <div id="placeholders" class="placeholders">
+                <!-- Placeholder inputs will be generated here -->
+            </div>
+
+            <button type="submit">Submit Argument</button>
+        </form>
+
+        <!-- Claim and Stance Filters -->
+        <div style="margin-top: 30px;">
+            <label for="filterClaimSelect">Select a Claim to View Arguments</label>
+            <select id="filterClaimSelect">
+                <option value="">-- All Claims --</option>
+                <!-- Claims will be populated here -->
+            </select>
+
+            <label for="filterStanceSelect">Select Stance</label>
+            <select id="filterStanceSelect">
+                <option value="">-- All Stances --</option>
+                <option value="For">For</option>
+                <option value="Against">Against</option>
+            </select>
+
+            <button onclick="displayArguments()">Filter Arguments</button>
+        </div>
+
+        <!-- Ranking Options -->
+        <div class="ranking-options">
+            <label for="rankingSelect">Sort Arguments By:</label>
+            <select id="rankingSelect">
+                <option value="mostRecent">Most Recent</option>
+                <option value="mostEndorsed">Most Endorsed</option>
+                <option value="highestPercentage">Highest Endorsement Percentage</option>
+            </select>
+        </div>
+
+        <div id="argumentsList">
+            <!-- Submitted arguments will appear here -->
+        </div>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore-compat.js"></script>
+
+    <script>
+        // Your Firebase configuration
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+    </script>
+
+    <script>
+        // JavaScript code to handle user authentication, argument submission, voting, and displaying arguments.
+
+        // Monitor Authentication State
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                // User is signed in
+                document.getElementById('authContainer').style.display = 'none';
+                document.getElementById('logoutButton').style.display = 'block';
+            } else {
+                // No user is signed in
+                document.getElementById('authContainer').style.display = 'block';
+                document.getElementById('logoutButton').style.display = 'none';
+            }
+        });
+
+        // Function to register a new user
+        function register() {
+            var email = document.getElementById('registerEmail').value;
+            var password = document.getElementById('registerPassword').value;
+
+            firebase.auth().createUserWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    alert('Registration successful!');
+                    document.getElementById('registerEmail').value = '';
+                    document.getElementById('registerPassword').value = '';
+                })
+                .catch((error) => {
+                    alert(error.message);
+                });
+        }
+
+        // Function to log in
+        function login() {
+            var email = document.getElementById('loginEmail').value;
+            var password = document.getElementById('loginPassword').value;
+
+            firebase.auth().signInWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    alert('Login successful!');
+                    document.getElementById('loginEmail').value = '';
+                    document.getElementById('loginPassword').value = '';
+                })
+                .catch((error) => {
+                    alert(error.message);
+                });
+        }
+
+        // Function to log out
+        function logout() {
+            firebase.auth().signOut().then(() => {
+                alert('Logged out successfully!');
+            }).catch((error) => {
+                alert(error.message);
+            });
+        }
+
+        // Initialize variables
+        let selectedArgumentForm = null;
+        let selectedClaimText = '';
+        let selectedStanceText = '';
+
+        // Define claims for each category and subcategory
+        const claimsByCategory = {
+            Politics: {
+                Governance: [
+                    { value: 'claim1', text: 'Democracy is the best form of government.' },
+                    { value: 'claim2', text: 'Capital punishment should be abolished.' },
+                    { value: 'claim3', text: 'Voting should be mandatory for all eligible citizens.' },
+                    { value: 'claim4', text: 'Government transparency reduces corruption.' },
+                    { value: 'claim5', text: 'Term limits prevent the abuse of power.' }
+                ],
+                Economy: [
+                    { value: 'claim6', text: 'Free trade agreements benefit all parties involved.' },
+                    { value: 'claim7', text: 'Universal basic income can alleviate poverty.' },
+                    { value: 'claim8', text: 'Minimum wage laws help reduce income inequality.' },
+                    { value: 'claim9', text: 'Taxation should be based on income levels.' },
+                    { value: 'claim10', text: 'Government should regulate monopolies.' }
+                ],
+                InternationalRelations: [
+                    { value: 'claim11', text: 'Diplomacy is more effective than military intervention.' },
+                    { value: 'claim12', text: 'Globalization has more benefits than drawbacks.' },
+                    { value: 'claim13', text: 'Sanctions are an effective tool for foreign policy.' },
+                    { value: 'claim14', text: 'International organizations help maintain global peace.' },
+                    { value: 'claim15', text: 'Countries should prioritize their own citizens over international obligations.' }
+                ],
+                Legislation: [
+                    { value: 'claim76', text: 'Gun control laws reduce violence.' },
+                    { value: 'claim77', text: 'Legalizing marijuana has societal benefits.' },
+                    { value: 'claim78', text: 'Immigration laws should be relaxed.' },
+                    { value: 'claim79', text: 'Privacy laws need to be strengthened.' },
+                    { value: 'claim80', text: 'Net neutrality is essential for a free internet.' }
+                ],
+                PublicPolicy: [
+                    { value: 'claim81', text: 'Education should be free for all.' },
+                    { value: 'claim82', text: 'Healthcare should be privatized.' },
+                    { value: 'claim83', text: 'The government should invest in renewable energy.' },
+                    { value: 'claim84', text: 'Public transportation should be subsidized.' },
+                    { value: 'claim85', text: 'Welfare programs reduce poverty.' }
+                ]
+            },
+            Culture: {
+                Media: [
+                    { value: 'claim16', text: 'Social media does more harm than good.' },
+                    { value: 'claim17', text: 'Censorship is necessary in some cases.' },
+                    { value: 'claim18', text: 'Video games contribute to youth violence.' },
+                    { value: 'claim19', text: 'Reality TV negatively impacts society.' },
+                    { value: 'claim20', text: 'Advertising influences consumer behavior.' }
+                ],
+                Education: [
+                    { value: 'claim21', text: 'Standardized testing should be abolished.' },
+                    { value: 'claim22', text: 'Arts education is as important as science education.' },
+                    { value: 'claim23', text: 'Homework is beneficial for student learning.' },
+                    { value: 'claim24', text: 'Online education is the future of learning.' },
+                    { value: 'claim25', text: 'School uniforms should be mandatory.' }
+                ],
+                SocialIssues: [
+                    { value: 'claim26', text: 'Affirmative action promotes equality.' },
+                    { value: 'claim27', text: 'Gun control laws reduce crime.' },
+                    { value: 'claim28', text: 'Climate change is the biggest threat to humanity.' },
+                    { value: 'claim29', text: 'Same-sex marriage should be legal worldwide.' },
+                    { value: 'claim30', text: 'Animal testing is unethical.' }
+                ],
+                Technology: [
+                    { value: 'claim86', text: 'Artificial intelligence will benefit humanity.' },
+                    { value: 'claim87', text: 'Privacy is more important than security.' },
+                    { value: 'claim88', text: 'Technology addiction is a real problem.' },
+                    { value: 'claim89', text: 'Space exploration is worth the cost.' },
+                    { value: 'claim90', text: 'Robotics will lead to mass unemployment.' }
+                ],
+                Religion: [
+                    { value: 'claim91', text: 'Religion has a place in public schools.' },
+                    { value: 'claim92', text: 'Faith and science are compatible.' },
+                    { value: 'claim93', text: 'Secularism is essential for democracy.' },
+                    { value: 'claim94', text: 'Religious symbols should be allowed in public spaces.' },
+                    { value: 'claim95', text: 'Religion causes more harm than good.' }
+                ]
+            },
+            Health: {
+                Medicine: [
+                    { value: 'claim31', text: 'Vaccinations should be mandatory.' },
+                    { value: 'claim32', text: 'Alternative medicine is effective.' },
+                    { value: 'claim33', text: 'Healthcare is a fundamental human right.' },
+                    { value: 'claim34', text: 'Euthanasia should be legalized.' },
+                    { value: 'claim35', text: 'Mental health is as important as physical health.' }
+                ],
+                Nutrition: [
+                    { value: 'claim36', text: 'Organic food is healthier than non-organic food.' },
+                    { value: 'claim37', text: 'Sugar is more harmful than fat.' },
+                    { value: 'claim38', text: 'Veganism is the most ethical diet.' },
+                    { value: 'claim39', text: 'GMOs are safe for consumption.' },
+                    { value: 'claim40', text: 'Supplements are necessary for good health.' }
+                ],
+                PublicHealth: [
+                    { value: 'claim41', text: 'Smoking should be banned in all public places.' },
+                    { value: 'claim42', text: 'Drug addiction is a disease, not a crime.' },
+                    { value: 'claim43', text: 'Obesity is a personal responsibility.' },
+                    { value: 'claim44', text: 'Water fluoridation improves dental health.' },
+                    { value: 'claim45', text: 'Universal healthcare reduces overall costs.' }
+                ],
+                Fitness: [
+                    { value: 'claim96', text: 'Daily exercise improves mental health.' },
+                    { value: 'claim97', text: 'High-intensity interval training is most effective.' },
+                    { value: 'claim98', text: 'Children should participate in competitive sports.' },
+                    { value: 'claim99', text: 'Yoga benefits both body and mind.' },
+                    { value: 'claim100', text: 'Technology hinders physical activity.' }
+                ],
+                MentalHealth: [
+                    { value: 'claim101', text: 'Meditation reduces stress.' },
+                    { value: 'claim102', text: 'Social media affects self-esteem.' },
+                    { value: 'claim103', text: 'Work-life balance is essential for mental health.' },
+                    { value: 'claim104', text: 'Access to nature improves well-being.' },
+                    { value: 'claim105', text: 'Mental health education should start early.' }
+                ]
+            },
+            History: {
+                AncientHistory: [
+                    { value: 'claim46', text: 'The pyramids were built by slaves.' },
+                    { value: 'claim47', text: 'Ancient Rome was more advanced than Ancient Greece.' },
+                    { value: 'claim48', text: 'The Great Wall of China was effective in keeping invaders out.' },
+                    { value: 'claim49', text: 'The Indus Valley Civilization was the most advanced of its time.' },
+                    { value: 'claim50', text: 'The Bronze Age collapse was caused by natural disasters.' }
+                ],
+                ModernHistory: [
+                    { value: 'claim51', text: 'World War II was preventable.' },
+                    { value: 'claim52', text: 'The Cold War never truly ended.' },
+                    { value: 'claim53', text: 'Colonialism has had a lasting negative impact.' },
+                    { value: 'claim54', text: 'The Industrial Revolution did more good than harm.' },
+                    { value: 'claim55', text: 'The moon landing was faked.' }
+                ],
+                HistoricalFigures: [
+                    { value: 'claim56', text: 'Alexander the Great was a hero.' },
+                    { value: 'claim57', text: 'Genghis Khan was a brutal conqueror.' },
+                    { value: 'claim58', text: 'Napoleon was a tyrant.' },
+                    { value: 'claim59', text: 'Mahatma Gandhi\'s methods were effective.' },
+                    { value: 'claim60', text: 'Nelson Mandela was a revolutionary leader.' }
+                ],
+                CulturalHistory: [
+                    { value: 'claim106', text: 'The Renaissance was a pivotal cultural movement.' },
+                    { value: 'claim107', text: 'Jazz music influenced social change.' },
+                    { value: 'claim108', text: 'Art reflects the politics of its time.' },
+                    { value: 'claim109', text: 'Literature shapes national identity.' },
+                    { value: 'claim110', text: 'Fashion trends indicate societal values.' }
+                ],
+                TechnologicalHistory: [
+                    { value: 'claim111', text: 'The printing press revolutionized information sharing.' },
+                    { value: 'claim112', text: 'The internet is the most significant invention of the 20th century.' },
+                    { value: 'claim113', text: 'Industrialization improved quality of life.' },
+                    { value: 'claim114', text: 'Space exploration has advanced technology.' },
+                    { value: 'claim115', text: 'The digital revolution changed communication.' }
+                ]
+            },
+            Philosophy: {
+                Ethics: [
+                    { value: 'claim61', text: 'Moral relativism is valid.' },
+                    { value: 'claim62', text: 'Utilitarianism leads to the greatest good.' },
+                    { value: 'claim63', text: 'People are inherently selfish.' },
+                    { value: 'claim64', text: 'Free will does not exist.' },
+                    { value: 'claim65', text: 'Altruism is possible.' }
+                ],
+                Metaphysics: [
+                    { value: 'claim66', text: 'Reality is a simulation.' },
+                    { value: 'claim67', text: 'Time is an illusion.' },
+                    { value: 'claim68', text: 'There are multiple universes.' },
+                    { value: 'claim69', text: 'Consciousness can exist without a body.' },
+                    { value: 'claim70', text: 'God exists.' }
+                ],
+                Epistemology: [
+                    { value: 'claim71', text: 'Knowledge is justified true belief.' },
+                    { value: 'claim72', text: 'Skepticism leads to truth.' },
+                    { value: 'claim73', text: 'Perception is reality.' },
+                    { value: 'claim74', text: 'Science is the only path to knowledge.' },
+                    { value: 'claim75', text: 'Language shapes thought.' }
+                ],
+                Logic: [
+                    { value: 'claim116', text: 'Deductive reasoning is infallible.' },
+                    { value: 'claim117', text: 'Paradoxes challenge our understanding.' },
+                    { value: 'claim118', text: 'Mathematics is the language of the universe.' },
+                    { value: 'claim119', text: 'All men are mortal; Socrates is a man; therefore, Socrates is mortal.' },
+                    { value: 'claim120', text: 'Logical fallacies undermine arguments.' }
+                ],
+                Aesthetics: [
+                    { value: 'claim121', text: 'Beauty is subjective.' },
+                    { value: 'claim122', text: 'Art requires intention.' },
+                    { value: 'claim123', text: 'Nature is the highest form of beauty.' },
+                    { value: 'claim124', text: 'Emotions are central to experiencing art.' },
+                    { value: 'claim125', text: 'Art reflects the human condition.' }
+                ]
+            }
+            // All categories, subcategories, and claims are included
+        };
+
+        // Argument forms
+        const argumentForms = {
+            for: [
+                {
+                    id: 'forOption1',
+                    structure: [
+                        '1. If {A}, then {Z}.',
+                        '2. {A}.',
+                        '{Z}.'
+                    ],
+                    placeholders: ['A']
+                },
+                {
+                    id: 'forOption2',
+                    structure: [
+                        '1. {A} or {Z}.',
+                        '2. Not {A}.',
+                        '{Z}.'
+                    ],
+                    placeholders: ['A']
+                },
+                {
+                    id: 'forOption3',
+                    structure: [
+                        '1. If Not {Z}, then {A}.',
+                        '2. Not {A}.',
+                        '{Z}.'
+                    ],
+                    placeholders: ['A']
+                },
+                {
+                    id: 'forOption4',
+                    structure: [
+                        '1. If {A}, then {B}.',
+                        '2. If {B}, then {Z}.',
+                        '3. {A}.',
+                        '{Z}.'
+                    ],
+                    placeholders: ['A', 'B']
+                },
+                {
+                    id: 'forOption5',
+                    structure: [
+                        '1. {A}.',
+                        '2. {B}.',
+                        '3. If {A} and {B}, then {Z}.',
+                        '{Z}.'
+                    ],
+                    placeholders: ['A', 'B']
+                },
+                {
+                    id: 'forOption6',
+                    structure: [
+                        '1. If {A}, then {B}.',
+                        '2. If {B}, then {C}.',
+                        '3. If {C}, then {Z}.',
+                        '4. {A}.',
+                        '{Z}.'
+                    ],
+                    placeholders: ['A', 'B', 'C']
+                },
+                {
+                    id: 'forOption7',
+                    structure: [
+                        '1. If Not {Z}, then {A}.',
+                        '2. If {A}, then Not {B}.',
+                        '3. {B}.',
+                        '{Z}.'
+                    ],
+                    placeholders: ['A', 'B']
+                },
+                {
+                    id: 'forOption8',
+                    structure: [
+                        '1. Not both {A} and {B}.',
+                        '2. {A}.',
+                        '3. If Not {B}, then {Z}.',
+                        '{Z}.'
+                    ],
+                    placeholders: ['A', 'B']
+                },
+                {
+                    id: 'forOption9',
+                    structure: [
+                        '1. {A}.',
+                        '2. {B}.',
+                        '3. Not {C}.',
+                        '4. If {A} and {B} and Not {C}, then {Z}.',
+                        '{Z}.'
+                    ],
+                    placeholders: ['A', 'B', 'C']
+                }
+            ],
+            against: [
+                {
+                    id: 'againstOption1',
+                    structure: [
+                        '1. If {A}, then Not {Z}.',
+                        '2. {A}.',
+                        'Not {Z}.'
+                    ],
+                    placeholders: ['A']
+                },
+                {
+                    id: 'againstOption2',
+                    structure: [
+                        '1. {A} or Not {Z}.',
+                        '2. Not {A}.',
+                        'Not {Z}.'
+                    ],
+                    placeholders: ['A']
+                },
+                {
+                    id: 'againstOption3',
+                    structure: [
+                        '1. If {Z}, then {A}.',
+                        '2. Not {A}.',
+                        'Not {Z}.'
+                    ],
+                    placeholders: ['A']
+                },
+                {
+                    id: 'againstOption4',
+                    structure: [
+                        '1. If {A}, then {B}.',
+                        '2. If {B}, then Not {Z}.',
+                        '3. {A}.',
+                        'Not {Z}.'
+                    ],
+                    placeholders: ['A', 'B']
+                },
+                {
+                    id: 'againstOption5',
+                    structure: [
+                        '1. {A}.',
+                        '2. {B}.',
+                        '3. If {A} and {B}, then Not {Z}.',
+                        'Not {Z}.'
+                    ],
+                    placeholders: ['A', 'B']
+                },
+                {
+                    id: 'againstOption6',
+                    structure: [
+                        '1. If {A}, then {B}.',
+                        '2. If {B}, then {C}.',
+                        '3. If {C}, then Not {Z}.',
+                        '4. {A}.',
+                        'Not {Z}.'
+                    ],
+                    placeholders: ['A', 'B', 'C']
+                },
+                {
+                    id: 'againstOption7',
+                    structure: [
+                        '1. If {Z}, then {A}.',
+                        '2. If {A}, then Not {B}.',
+                        '3. {B}.',
+                        'Not {Z}.'
+                    ],
+                    placeholders: ['A', 'B']
+                },
+                {
+                    id: 'againstOption8',
+                    structure: [
+                        '1. Not both {A} and {B}.',
+                        '2. {A}.',
+                        '3. If Not {B}, then Not {Z}.',
+                        'Not {Z}.'
+                    ],
+                    placeholders: ['A', 'B']
+                },
+                {
+                    id: 'againstOption9',
+                    structure: [
+                        '1. {A}.',
+                        '2. {B}.',
+                        '3. Not {C}.',
+                        '4. If {A} and {B} and Not {C}, then Not {Z}.',
+                        'Not {Z}.'
+                    ],
+                    placeholders: ['A', 'B', 'C']
+                }
+            ]
+        };
+
+        // The rest of your JavaScript code, including all functions and event handlers, goes here.
+
+        // For brevity, I'm including key functions and event listeners to ensure your application works as intended.
+
+        // Populate subcategories based on selected category
+        document.getElementById('categorySelect').addEventListener('change', function() {
+            const category = this.value;
+            const subcategorySelect = document.getElementById('subcategorySelect');
+            subcategorySelect.innerHTML = '<option value="">-- Choose a Subcategory --</option>'; // Reset subcategories
+            const claimSelect = document.getElementById('claimSelect');
+            claimSelect.innerHTML = '<option value="">-- Choose a Claim --</option>'; // Reset claims
+
+            if (claimsByCategory[category]) {
+                const subcategories = Object.keys(claimsByCategory[category]);
+                subcategories.forEach(subcategory => {
+                    const option = document.createElement('option');
+                    option.value = subcategory;
+                    option.textContent = subcategory;
+                    subcategorySelect.appendChild(option);
+                });
+            }
+        });
+
+        // Populate claims based on selected subcategory
+        document.getElementById('subcategorySelect').addEventListener('change', function() {
+            const category = document.getElementById('categorySelect').value;
+            const subcategory = this.value;
+            const claimSelect = document.getElementById('claimSelect');
+            claimSelect.innerHTML = '<option value="">-- Choose a Claim --</option>'; // Reset claims
+
+            if (claimsByCategory[category] && claimsByCategory[category][subcategory]) {
+                claimsByCategory[category][subcategory].forEach(claim => {
+                    const option = document.createElement('option');
+                    option.value = claim.value;
+                    option.textContent = claim.text;
+                    claimSelect.appendChild(option);
+                });
+            }
+
+            // Populate filterClaimSelect
+            populateFilterClaims();
+        });
+
+        // Handle stance selection change
+        document.getElementById('stanceSelect').addEventListener('change', function() {
+            const stance = this.value.toLowerCase();
+            selectedStanceText = this.options[this.selectedIndex].text;
+            displayArgumentForms(stance);
+        });
+
+        // Function to display argument forms based on stance
+        function displayArgumentForms(stance) {
+            const container = document.getElementById('argumentFormsContainer');
+            container.innerHTML = ''; // Clear previous forms
+            selectedArgumentForm = null;
+            generatePlaceholderInputs(null); // Clear placeholders
+
+            if (stance && argumentForms[stance]) {
+                const forms = argumentForms[stance];
+                const formsContainer = document.createElement('div');
+                formsContainer.className = 'argument-forms';
+
+                forms.forEach(form => {
+                    const card = document.createElement('div');
+                    card.className = 'argument-form-card';
+                    card.dataset.formId = form.id;
+
+                    const content = document.createElement('p');
+                    content.innerHTML = createVariableRectangles(form.structure.join('<br>'), {}, true);
+
+                    card.appendChild(content);
+
+                    card.addEventListener('click', function() {
+                        // Remove 'selected' class from other cards
+                        document.querySelectorAll('.argument-form-card').forEach(c => c.classList.remove('selected'));
+                        // Add 'selected' class to this card
+                        card.classList.add('selected');
+                        // Set selectedArgumentForm
+                        selectedArgumentForm = form;
+                        // Generate placeholders
+                        generatePlaceholderInputs(form);
+                    });
+
+                    formsContainer.appendChild(card);
+                });
+
+                container.appendChild(formsContainer);
+            }
+        }
+
+        // Function to generate placeholder inputs based on selected argument form
+        function generatePlaceholderInputs(form) {
+            const placeholdersDiv = document.getElementById('placeholders');
+            placeholdersDiv.innerHTML = ''; // Clear previous inputs
+
+            if (form) {
+                form.placeholders.forEach(placeholder => {
+                    const label = document.createElement('label');
+                    label.textContent = `Enter value for ${placeholder}:`;
+                    label.className = 'placeholder-input';
+
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.name = placeholder;
+                    input.placeholder = placeholder;
+                    input.required = true;
+                    input.className = 'placeholder-input';
+
+                    // Add character limit of 200 for A, B, and C
+                    if (['A', 'B', 'C'].includes(placeholder)) {
+                        input.maxLength = 200;
+                    }
+
+                    placeholdersDiv.appendChild(label);
+                    placeholdersDiv.appendChild(input);
+                });
+
+                // Input for URLs for each premise
+                form.structure.forEach((line, index) => {
+                    const premiseNumber = index + 1;
+                    if (line.includes('{A}') || line.includes('{B}') || line.includes('{C}') || line.includes('{Z}') || line.includes('Not {Z}') || line.includes('Not {A}') || line.includes('Not {B}') || line.includes('Not {C}')) {
+                        const label = document.createElement('label');
+                        label.textContent = `URL for premise ${premiseNumber} (optional):`;
+                        label.className = 'placeholder-input';
+
+                        const input = document.createElement('input');
+                        input.type = 'url';
+                        input.name = `url${index}`;
+                        input.placeholder = `https://example.com`;
+                        input.className = 'placeholder-input';
+
+                        placeholdersDiv.appendChild(label);
+                        placeholdersDiv.appendChild(input);
+                    }
+                });
+
+                placeholdersDiv.style.display = 'block';
+            } else {
+                placeholdersDiv.style.display = 'none';
+            }
+        }
+
+        // Function to create variable rectangles in a string
+        function createVariableRectangles(text, placeholderValues, isForm = false) {
+            const variableColors = {
+                'A': 'variable-A',
+                'B': 'variable-B',
+                'C': 'variable-C',
+                'Z': 'variable-Z'
+            };
+
+            const variables = ['A', 'B', 'C', 'Z'];
+
+            variables.forEach(variable => {
+                const colorClass = variableColors[variable];
+                const value = placeholderValues[variable] || '';
+
+                // For argument forms, display the variable letters
+                const rectangleContent = isForm ? variable : value;
+
+                // Create the rectangle HTML
+                const rectangleHTML = `<span class="variable-box ${colorClass}">${rectangleContent}</span>`;
+
+                // Handle 'If Not {X}'
+                const regexIfNot = new RegExp(`If Not {${variable}}`, 'g');
+                const replacementIfNot = `If Not ${rectangleHTML}`;
+                text = text.replace(regexIfNot, replacementIfNot);
+
+                // Handle 'If {X}'
+                const regexIf = new RegExp(`If {${variable}}`, 'g');
+                const replacementIf = `If ${rectangleHTML}`;
+                text = text.replace(regexIf, replacementIf);
+
+                // Handle 'Not {X}'
+                const regexNot = new RegExp(`Not {${variable}}`, 'g');
+                const replacementNot = `Not ${rectangleHTML}`;
+                text = text.replace(regexNot, replacementNot);
+
+                // Handle '{X}'
+                const regexVar = new RegExp(`{${variable}}`, 'g');
+                const replacementVar = `${rectangleHTML}`;
+                text = text.replace(regexVar, replacementVar);
+            });
+
+            return text;
+        }
+
+        // Function to construct the argument text with variable rectangles
+        function constructArgument(form, placeholderValues) {
+            // Add the selected claim text to placeholderValues for {Z}
+            placeholderValues['Z'] = selectedClaimText;
+
+            const argumentLines = form.structure.map((line) => {
+                let formattedLine = line;
+
+                // Remove the numbering from the line for compiled arguments
+                formattedLine = formattedLine.replace(/^\d+\.\s*/, '');
+
+                formattedLine = createVariableRectangles(formattedLine, placeholderValues, false);
+                return formattedLine;
+            });
+            return argumentLines;
+        }
+
+        // Function to collect URLs for premises
+        function collectPremiseURLs(form) {
+            const premiseURLs = {};
+            form.structure.forEach((line, index) => {
+                const urlInput = document.querySelector(`input[name="url${index}"]`);
+                if (urlInput && urlInput.value.trim() !== '') {
+                    premiseURLs[index] = urlInput.value.trim();
+                }
+            });
+            return premiseURLs;
+        }
+
+        // Handle form submission
+        document.getElementById('argumentForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            var user = firebase.auth().currentUser;
+            if (!user) {
+                alert('You must be logged in to submit an argument.');
+                return;
+            }
+
+            // Collect form data
+            const title = document.getElementById('argumentTitle').value;
+            const claimSelect = document.getElementById('claimSelect');
+            const stanceSelect = document.getElementById('stanceSelect');
+
+            selectedClaimText = claimSelect.options[claimSelect.selectedIndex].text;
+            selectedStanceText = stanceSelect.options[stanceSelect.selectedIndex].text;
+
+            if (!selectedArgumentForm) {
+                alert('Please select an argument form.');
+                return;
+            }
+
+            const placeholderInputs = document.querySelectorAll('#placeholders input[type="text"]');
+            const placeholderValues = {};
+
+            // Collect placeholder values
+            placeholderInputs.forEach(input => {
+                placeholderValues[input.name] = input.value;
+            });
+
+            if (validateArgument(selectedArgumentForm, placeholderValues)) {
+                const argumentLines = constructArgument(selectedArgumentForm, placeholderValues);
+                const premiseURLs = collectPremiseURLs(selectedArgumentForm);
+
+                // Create argument object
+                const argumentData = {
+                    title: title,
+                    argumentLines: argumentLines,
+                    claimText: selectedClaimText,
+                    stanceText: selectedStanceText,
+                    premiseURLs: premiseURLs,
+                    endorsements: 0,
+                    disagreements: 0,
+                    endorsementPercentage: 0,
+                    createdBy: user.uid,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                };
+
+                // Save to Firestore
+                db.collection('arguments').add(argumentData)
+                    .then((docRef) => {
+                        alert('Argument submitted successfully!');
+                        // Reset form
+                        document.getElementById('argumentForm').reset();
+                        selectedArgumentForm = null;
+                        displayArgumentForms(null);
+                        generatePlaceholderInputs(null);
+                        // Refresh the argument list
+                        displayArguments();
+                    })
+                    .catch((error) => {
+                        console.error("Error adding document: ", error);
+                    });
+            }
+        });
+
+        // Function to validate the logical argument
+        function validateArgument(form, placeholderValues) {
+            // Check that all placeholders are non-empty
+            for (const placeholder of form.placeholders) {
+                if (!placeholderValues[placeholder] || placeholderValues[placeholder].trim() === '') {
+                    alert(`Please provide a value for ${placeholder}.`);
+                    return false;
+                }
+            }
+            // Additional logic checks can be added here
+            return true;
+        }
+
+        // Function to display arguments
+        function displayArguments() {
+            const argumentsList = document.getElementById('argumentsList');
+            argumentsList.innerHTML = '';
+
+            const rankingMethod = document.getElementById('rankingSelect').value;
+            const claimFilter = document.getElementById('filterClaimSelect').value;
+            const stanceFilter = document.getElementById('filterStanceSelect').value;
+
+            let query = db.collection('arguments');
+
+            // Apply filters
+            if (claimFilter) {
+                query = query.where('claimText', '==', claimFilter);
+            }
+            if (stanceFilter) {
+                query = query.where('stanceText', '==', stanceFilter);
+            }
+
+            // Add ordering
+            if (rankingMethod === 'mostEndorsed') {
+                query = query.orderBy('endorsements', 'desc');
+            } else if (rankingMethod === 'highestPercentage') {
+                query = query.orderBy('endorsementPercentage', 'desc');
+            } else {
+                query = query.orderBy('createdAt', 'desc');
+            }
+
+            // Fetch and render arguments
+            query.get().then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    const argumentObj = doc.data();
+                    argumentObj.id = doc.id;
+
+                    // Render argument
+                    const argumentDiv = document.createElement('div');
+                    argumentDiv.className = 'argument';
+                    argumentDiv.dataset.id = argumentObj.id;
+
+                    const argumentHeader = document.createElement('div');
+                    argumentHeader.className = 'argument-header';
+
+                    const stanceIcon = document.createElement('i');
+                    stanceIcon.className = 'argument-icon ' + (argumentObj.stanceText === 'For' ? 'fas fa-thumbs-up' : 'fas fa-thumbs-down');
+
+                    const argumentTitle = document.createElement('h3');
+                    argumentTitle.className = 'argument-title';
+                    argumentTitle.textContent = argumentObj.title;
+
+                    argumentHeader.appendChild(stanceIcon);
+                    argumentHeader.appendChild(argumentTitle);
+
+                    const claimElement = document.createElement('p');
+                    claimElement.innerHTML = `<strong>Claim (${argumentObj.stanceText}):</strong> ${argumentObj.claimText}`;
+                    claimElement.style.marginTop = '15px';
+                    claimElement.style.fontSize = '20px';
+                    claimElement.style.color = '#555';
+
+                    const argumentContentDiv = document.createElement('div');
+                    argumentContentDiv.className = 'argument-content';
+
+                    const ol = document.createElement('ol');
+
+                    argumentObj.argumentLines.forEach((line, index) => {
+                        const li = document.createElement('li');
+
+                        const premiseText = document.createElement('span');
+                        premiseText.className = 'premise-text';
+                        premiseText.innerHTML = line; // Use innerHTML to render the variable rectangles
+
+                        li.appendChild(premiseText);
+
+                        // Add URL next to the premise if available
+                        if (argumentObj.premiseURLs[index]) {
+                            const urlLink = document.createElement('a');
+                            urlLink.href = argumentObj.premiseURLs[index];
+                            urlLink.target = '_blank';
+                            urlLink.rel = 'noopener noreferrer';
+                            urlLink.textContent = 'Evidence';
+                            urlLink.className = 'premise-url';
+                            li.appendChild(urlLink);
+                        }
+
+                        // Add "Disagree with this premise" button to premises
+                        if (index < argumentObj.argumentLines.length - 1) { // Exclude conclusion
+                            const disagreeButton = document.createElement('button');
+                            disagreeButton.textContent = 'Disagree with this premise';
+                            disagreeButton.className = 'disagree-premise-button';
+                            disagreeButton.onclick = function() {
+                                var user = firebase.auth().currentUser;
+                                if (!user) {
+                                    alert('You must be logged in to disagree with a premise.');
+                                    return;
+                                }
+                                updateDisagreement(argumentObj.id);
+                            };
+                            li.appendChild(disagreeButton);
+                        } else {
+                            // Add "Endorse Conclusion" button next to conclusion
+                            const endorseButton = document.createElement('button');
+                            endorseButton.textContent = 'Endorse Conclusion';
+                            endorseButton.className = 'endorse-conclusion-button';
+                            endorseButton.onclick = function() {
+                                var user = firebase.auth().currentUser;
+                                if (!user) {
+                                    alert('You must be logged in to endorse the conclusion.');
+                                    return;
+                                }
+                                updateEndorsement(argumentObj.id);
+                            };
+                            li.appendChild(document.createElement('br'));
+                            li.appendChild(endorseButton);
+                        }
+
+                        ol.appendChild(li);
+                    });
+
+                    argumentContentDiv.appendChild(ol);
+
+                    // Display endorsement stats
+                    const endorsementStats = document.createElement('div');
+                    endorsementStats.className = 'endorsement-stats';
+                    endorsementStats.textContent = `Endorsements: ${argumentObj.endorsements || 0} | Disagreements: ${argumentObj.disagreements || 0} | Endorsement Percentage: ${argumentObj.endorsementPercentage ? argumentObj.endorsementPercentage.toFixed(2) : 0}%`;
+
+                    argumentDiv.appendChild(argumentHeader);
+                    argumentDiv.appendChild(claimElement);
+                    argumentDiv.appendChild(argumentContentDiv);
+                    argumentDiv.appendChild(endorsementStats);
+
+                    argumentsList.appendChild(argumentDiv);
+                });
+            }).catch((error) => {
+                console.error("Error getting documents: ", error);
+            });
+        }
+
+        // Update endorsement
+        function updateEndorsement(argumentId) {
+            const argumentRef = db.collection('arguments').doc(argumentId);
+            db.runTransaction((transaction) => {
+                return transaction.get(argumentRef).then((doc) => {
+                    if (!doc.exists) {
+                        throw "Argument does not exist!";
+                    }
+                    const newEndorsements = (doc.data().endorsements || 0) + 1;
+                    const disagreements = doc.data().disagreements || 0;
+                    const totalVotes = newEndorsements + disagreements;
+                    const endorsementPercentage = totalVotes > 0 ? (100 * newEndorsements) / totalVotes : 0;
+                    transaction.update(argumentRef, {
+                        endorsements: newEndorsements,
+                        endorsementPercentage: endorsementPercentage
+                    });
+                });
+            }).then(() => {
+                alert('You endorsed the conclusion.');
+                displayArguments();
+            }).catch((error) => {
+                console.error("Transaction failed: ", error);
+            });
+        }
+
+        // Update disagreement
+        function updateDisagreement(argumentId) {
+            const argumentRef = db.collection('arguments').doc(argumentId);
+            db.runTransaction((transaction) => {
+                return transaction.get(argumentRef).then((doc) => {
+                    if (!doc.exists) {
+                        throw "Argument does not exist!";
+                    }
+                    const newDisagreements = (doc.data().disagreements || 0) + 1;
+                    const endorsements = doc.data().endorsements || 0;
+                    const totalVotes = newDisagreements + endorsements;
+                    const endorsementPercentage = totalVotes > 0 ? (100 * endorsements) / totalVotes : 0;
+                    transaction.update(argumentRef, {
+                        disagreements: newDisagreements,
+                        endorsementPercentage: endorsementPercentage
+                    });
+                });
+            }).then(() => {
+                alert('You disagreed with a premise.');
+                displayArguments();
+            }).catch((error) => {
+                console.error("Transaction failed: ", error);
+            });
+        }
+
+        // Handle ranking selection change
+        document.getElementById('rankingSelect').addEventListener('change', displayArguments);
+
+        // Populate filterClaimSelect with claims
+        function populateFilterClaims() {
+            const filterClaimSelect = document.getElementById('filterClaimSelect');
+            filterClaimSelect.innerHTML = '<option value="">-- All Claims --</option>';
+            const claimsSet = new Set();
+
+            // Collect all claims
+            for (const category in claimsByCategory) {
+                for (const subcategory in claimsByCategory[category]) {
+                    claimsByCategory[category][subcategory].forEach(claim => {
+                        claimsSet.add(claim.text);
+                    });
+                }
+            }
+
+            // Add claims to the select element
+            claimsSet.forEach(claimText => {
+                const option = document.createElement('option');
+                option.value = claimText;
+                option.textContent = claimText;
+                filterClaimSelect.appendChild(option);
+            });
+        }
+        populateFilterClaims();
+
+        // Initialize display
+        displayArguments();
+
+    </script>
+</body>
+</html>
