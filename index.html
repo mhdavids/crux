@@ -386,22 +386,22 @@
 
         <!-- User Authentication Forms -->
         <div id="authContainer">
-            <!-- Registration Form -->
-            <div id="registerForm">
-                <h2>Register</h2>
-                <input type="email" id="registerEmail" placeholder="Email" required>
-                <input type="password" id="registerPassword" placeholder="Password" required>
-                <button onclick="register()">Register</button>
-            </div>
+    <!-- Registration Form -->
+    <div id="registerForm">
+        <h2>Register</h2>
+        <input type="email" id="registerEmail" placeholder="Email" required>
+        <input type="password" id="registerPassword" placeholder="Password" required>
+        <button onclick="register()">Register</button>
+    </div>
+    <!-- Login Form -->
+    <div id="loginForm">
+        <h2>Login</h2>
+        <input type="email" id="loginEmail" placeholder="Email" required>
+        <input type="password" id="loginPassword" placeholder="Password" required>
+        <button onclick="login()">Login</button>
+    </div>
+</div>
 
-            <!-- Login Form -->
-            <div id="loginForm">
-                <h2>Login</h2>
-                <input type="email" id="loginEmail" placeholder="Email" required>
-                <input type="password" id="loginPassword" placeholder="Password" required>
-                <button onclick="login()">Login</button>
-            </div>
-        </div>
 
         <!-- Logout Button -->
         <button id="logoutButton" onclick="logout()" style="display:none;">Logout</button>
@@ -493,17 +493,18 @@
 
     <script>
         // Your Firebase configuration
-        const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_AUTH_DOMAIN",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_STORAGE_BUCKET",
-            messagingSenderId: "YOUR_SENDER_ID",
-            appId: "YOUR_APP_ID"
-        };
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
+const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_AUTH_DOMAIN",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_STORAGE_BUCKET",
+    messagingSenderId: "YOUR_SENDER_ID",
+    appId: "YOUR_APP_ID"
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
     </script>
 
     <script>
