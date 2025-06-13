@@ -703,7 +703,19 @@ document.addEventListener('DOMContentLoaded', () => {
             newDropZone.dataset.premiseId = newPremiseNum.toString();
             newDropZone.textContent = "[Drop content here]";
             newPremiseOuterDiv.appendChild(newDropZone);
-            currentPremisesContainer.appendChild(newPremiseOuterDiv);
+
+// Add URL input container for the new premise
+const urlContainer = document.createElement('div');
+urlContainer.className = 'premise-url-container';
+urlContainer.style.marginTop = '10px';
+urlContainer.innerHTML = `
+    <label style="font-size: 14px; font-weight: normal;">Evidence URL (optional):</label>
+    <input type="url" class="premise-url-input" id="premise-${newPremiseNum}-url" placeholder="https://example.com/evidence" style="width: 100%; margin-top: 5px;">
+    <small style="color: #666; font-size: 12px;">Enter full URL or just domain (e.g., example.com)</small>
+`;
+newPremiseOuterDiv.appendChild(urlContainer);
+
+currentPremisesContainer.appendChild(newPremiseOuterDiv);
             argumentWorkspace.premises[newPremiseNum.toString()] = null;
             renderPremiseSlot(newDropZone, null, newPremiseNum.toString()); 
         });
