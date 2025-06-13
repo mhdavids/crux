@@ -820,13 +820,21 @@ button[type="submit"] {
         console.log("Script 1: Auth functions defined");
         
         // Helper function to create an editable proposition bubble
-        window.createEditablePropositionBubble = function(letter, text) {
+        window.createEditablePropositionBubble = function(letter, text, isInPalette = false) {
             const bubble = document.createElement('span');
             bubble.className = `palette-item proposition prop-${letter.toLowerCase()}`;
             bubble.style.display = 'inline-block';
-            bubble.style.cursor = 'pointer';
             bubble.style.position = 'relative';
-            bubble.title = 'Click to edit statement';
+
+// Only make it clickable if it's in a premise or conclusion area
+if (!isInPalette) {
+    bubble.style.cursor = letter === 'K' ? 'default' : 'pointer';
+    bubble.title = letter === 'K' ? 'Main claim (cannot be edited)' : 'Click to edit statement';
+} else {
+    // In palette - not editable
+    bubble.style.cursor = 'grab';
+    bubble.title = `Drag ${letter} to a premise`;
+}
             
             // Add hover effect
             bubble.style.transition = 'transform 0.2s';
@@ -846,12 +854,15 @@ button[type="submit"] {
                 bubble.textContent = letter;
             }
             
-            bubble.onclick = function(e) {
-                e.stopPropagation();
-                if (window.editPropositionText && typeof window.editPropositionText === 'function') {
-                    window.editPropositionText(letter);
-                }
-            };
+            // Only add click handler if not in palette and not K
+if (!isInPalette && letter !== 'K') {
+    bubble.onclick = function(e) {
+        e.stopPropagation();
+        if (window.editPropositionText && typeof window.editPropositionText === 'function') {
+            window.editPropositionText(letter);
+        }
+    };
+}
             
             // Special styling for K to indicate it's not editable
             if (letter === 'K') {
