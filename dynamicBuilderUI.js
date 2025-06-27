@@ -688,7 +688,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const currentPremisesContainer = document.getElementById('premisesContainer');
             const existingMainPremiseDropZones = currentPremisesContainer.querySelectorAll('.drop-zone:not(.sub-drop-zone)');
             const newPremiseNum = existingMainPremiseDropZones.length + 1;
-            if (newPremiseNum > 5) { alert("Maximum of 5 premises allowed."); return; }
+            if (newPremiseNum > 7) { alert("Maximum of 7 premises allowed."); return; }
 
             const newPremiseOuterDiv = document.createElement('div');
             newPremiseOuterDiv.className = 'premise-slot';

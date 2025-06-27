@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -206,6 +206,75 @@ button[type="submit"] {
     padding: 1rem;
     font-size: 1rem;
     margin-top: 2rem;
+}
+
+/* Action buttons (Disagree/Endorse) with distinct styling */
+.disagree-premise-button, .endorse-conclusion-button {
+    border: 2px solid;
+    background: white;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    text-transform: none;
+    letter-spacing: normal;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: visible;
+}
+
+.disagree-premise-button {
+    border-color: var(--danger);
+    color: var(--danger);
+}
+
+.disagree-premise-button:hover {
+    background: var(--danger);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(245, 101, 101, 0.3);
+}
+
+.disagree-premise-button:disabled {
+    border-color: var(--gray-400);
+    color: var(--gray-500);
+    background: var(--gray-100);
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.disagree-premise-button:disabled:hover {
+    transform: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.endorse-conclusion-button {
+    border-color: var(--secondary);
+    color: var(--secondary);
+    margin-top: 1rem;
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
+}
+
+.endorse-conclusion-button:hover {
+    background: var(--secondary);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(72, 187, 120, 0.3);
+}
+
+.endorse-conclusion-button:disabled {
+    border-color: var(--gray-400);
+    color: var(--gray-500);
+    background: var(--gray-100);
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.endorse-conclusion-button:disabled:hover {
+    transform: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 #addPremiseButton {
@@ -479,6 +548,18 @@ button[type="submit"] {
     transition: var(--transition);
 }
 
+/* Fix for ordered list numbers */
+.argument-content ol {
+    list-style-type: decimal;
+    list-style-position: outside;
+    padding-left: 30px;
+    margin-left: 10px;
+}
+
+.argument-content li:hover {
+    background: var(--gray-100);
+    transform: translateX(4px);
+}
 .argument-content li:hover {
     background: var(--gray-100);
     transform: translateX(4px);
@@ -491,6 +572,20 @@ button[type="submit"] {
     padding: 2rem;
     box-shadow: var(--shadow-lg);
     margin-bottom: 2rem;
+}
+
+.argument-filters h2 {
+    margin-bottom: 1.5rem;
+}
+
+.argument-filters > div {
+    margin-bottom: 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .argument-filters > div {
+        grid-template-columns: 1fr !important;
+    }
 }
 
 /* Mobile Responsive Improvements */
@@ -517,6 +612,43 @@ button[type="submit"] {
     .argument-header {
         flex-direction: column;
         text-align: center;
+    }
+    
+    /* Mobile-specific argument content styling */
+    .argument-content {
+        overflow-x: hidden;
+    }
+    
+    .argument-content ol {
+        padding-left: 0;
+        margin-left: 0;
+    }
+    
+    .argument-content li {
+        display: block;
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+    
+    /* Ensure formula groups wrap properly on mobile */
+    .argument-content span[style*="inline-block"] {
+        max-width: 100% !important;
+        word-wrap: break-word !important;
+    }
+    
+    /* Adjust buttons on mobile */
+    .disagree-premise-button,
+    .endorse-conclusion-button {
+        display: block;
+        width: 100%;
+        margin: 10px 0 0 0 !important;
+    }
+    
+    /* Premise URL links */
+    .premise-url {
+        display: block;
+        margin-top: 10px;
+        word-break: break-all;
     }
 }
 
@@ -571,28 +703,137 @@ button[type="submit"] {
     outline-offset: 3px;
     box-shadow: 0 0 0 6px rgba(102, 126, 234, 0.2);
 }
+/* Mobile-friendly proposition bubbles in arguments */
+.argument-content .palette-item.proposition {
+    display: inline-block !important;
+    max-width: 100% !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+    hyphens: auto !important;
+    margin: 4px 2px !important;
+    padding: 6px 12px !important;
+    line-height: 1.4 !important;
+    vertical-align: middle !important;
+}
+
+@media (max-width: 768px) {
+    .argument-content .palette-item.proposition {
+        font-size: 0.8rem !important;
+        padding: 4px 8px !important;
+        margin: 2px !important;
+    }
+    
+    .argument-content .formula-group {
+        display: inline !important;
+        white-space: normal !important;
+    }
+    
+    .argument-content li {
+        padding: 1rem !important;
+    }
+    
+    /* Ensure premise text containers are full width on mobile */
+    .premise-text {
+        width: 100%;
+        display: block;
+        margin-bottom: 10px;
+    }
+    
+    /* Stack buttons vertically on mobile */
+    .premise-vote-container {
+        width: 100%;
+        margin-left: 0 !important;
+        margin-top: 10px;
+    }
+    
+    .disagree-premise-button,
+    .endorse-conclusion-button {
+        width: 100%;
+        text-align: center;
+    }
+/* Premise numbering and improved mobile layout */
+.premise-number {
+    display: block;
+    font-weight: bold;
+    color: var(--primary);
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+    .argument-content li {
+        position: relative;
+        padding-left: 0;
+        border-left: 3px solid var(--primary);
+        background-color: var(--gray-50);
+        margin-bottom: 1.5rem;
+    }
+    
+    /* Make operator groups more distinct on mobile */
+    .argument-content span[style*="backgroundColor"] {
+        display: block !important;
+        margin: 8px 0 !important;
+        padding: 8px !important;
+        border-radius: 8px !important;
+    }
+}
+}
+/* Beautiful premise numbering */
+.argument-content ol {
+    counter-reset: premise-counter;
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+.argument-content ol li {
+    counter-increment: premise-counter;
+    position: relative;
+    margin-bottom: 1.5rem;
+    padding-left: 0;
+}
+
+.argument-content ol li::before {
+    content: "Premise " counter(premise-counter);
+    display: block;
+    font-weight: 600;
+    color: var(--primary);
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.75rem;
+}
+
+/* Special styling for the conclusion */
+.argument-content ol li:last-child::before {
+    content: "Conclusion";
+    color: var(--secondary);
+}
+
+/* Adjust the premise text container */
+.argument-content .premise-text {
+    display: block;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    .argument-content ol li {
+        padding: 1rem;
+    }
+    
+    .argument-content ol li::before {
+        font-size: 0.8rem;
+    }
+}
     </style>
 </head>
 <body>
     <div class="pull-to-refresh">
         <i class="fas fa-sync"></i> <span style="margin-left: 10px;">Pull to refresh</span>
     </div>
-    
-    <!-- Mobile Navigation -->
-    <nav class="mobile-nav" role="navigation" aria-label="Mobile navigation">
-        <button onclick="scrollToTop()" aria-label="Home">
-            <i class="fas fa-home"></i>
-        </button>
-        <button onclick="document.getElementById('claimSetupForm').scrollIntoView()" aria-label="New Argument">
-            <i class="fas fa-plus-circle"></i>
-        </button>
-        <button onclick="document.getElementById('argumentsList').scrollIntoView()" aria-label="View Arguments">
-            <i class="fas fa-list"></i>
-        </button>
-        <button onclick="showMobileMenu()" aria-label="Menu">
-            <i class="fas fa-bars"></i>
-        </button>
-    </nav>
     
     <!-- Mobile Alert Container -->
     <div id="mobileAlert" class="mobile-alert" role="alert"></div>
@@ -736,17 +977,29 @@ button[type="submit"] {
 
         <div class="argument-filters">
             <h2>View Submitted Arguments</h2>
-            <label for="filterClaimSelect">Filter by Claim:</label>
-            <select id="filterClaimSelect"> <option value="">-- All Claims --</option> </select>
-            <label for="filterStanceSelect">Filter by Stance:</label>
-            <select id="filterStanceSelect"> <option value="">-- All Stances --</option> <option value="For">For</option> <option value="Against">Against</option> </select>
-            <button type="button" onclick="displayArguments()">Filter Arguments</button>
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                <div>
+                    <label for="filterClaimSelect">Filter by Claim:</label>
+                    <select id="filterClaimSelect"> <option value="">-- All Claims --</option> </select>
+                </div>
+                <div>
+                    <label for="filterStanceSelect">Filter by Stance:</label>
+                    <select id="filterStanceSelect"> <option value="">-- All Stances --</option> <option value="For">For</option> <option value="Against">Against</option> </select>
+                </div>
+                <div>
+                    <label for="rankingSelect">Sort By:</label>
+                    <select id="rankingSelect"> 
+                        <option value="random">Random</option>
+                        <option value="mostRecent">Most Recent</option> 
+                        <option value="mostEndorsed">Most Endorsed</option> 
+                        <option value="highestPercentage">Highest Endorsement Percentage</option> 
+                    </select>
+                </div>
+            </div>
+            <button type="button" onclick="displayArguments()" id="filterButton">Show Argument</button>
+            <button type="button" onclick="displayArguments(true)" id="nextButton" style="display: none; margin-left: 10px; background-color: #6c757d;">Show Another</button>
         </div>
 
-        <div class="ranking-options">
-            <label for="rankingSelect">Sort Arguments By:</label>
-            <select id="rankingSelect"> <option value="mostRecent">Most Recent</option> <option value="mostEndorsed">Most Endorsed</option> <option value="highestPercentage">Highest Endorsement Percentage</option> </select>
-        </div>
         <div id="argumentsList"></div>
     </div>
 
@@ -826,15 +1079,15 @@ button[type="submit"] {
             bubble.style.display = 'inline-block';
             bubble.style.position = 'relative';
 
-// Only make it clickable if it's in a premise or conclusion area
-if (!isInPalette) {
-    bubble.style.cursor = letter === 'K' ? 'default' : 'pointer';
-    bubble.title = letter === 'K' ? 'Main claim (cannot be edited)' : 'Click to edit statement';
-} else {
-    // In palette - not editable
-    bubble.style.cursor = 'grab';
-    bubble.title = `Drag ${letter} to a premise`;
-}
+            // Only make it clickable if it's in a premise or conclusion area
+            if (!isInPalette) {
+                bubble.style.cursor = letter === 'K' ? 'default' : 'pointer';
+                bubble.title = letter === 'K' ? 'Main claim (cannot be edited)' : 'Click to edit statement';
+            } else {
+                // In palette - not editable
+                bubble.style.cursor = 'grab';
+                bubble.title = `Drag ${letter} to a premise`;
+            }
             
             // Add hover effect
             bubble.style.transition = 'transform 0.2s';
@@ -855,14 +1108,14 @@ if (!isInPalette) {
             }
             
             // Only add click handler if not in palette and not K
-if (!isInPalette && letter !== 'K') {
-    bubble.onclick = function(e) {
-        e.stopPropagation();
-        if (window.editPropositionText && typeof window.editPropositionText === 'function') {
-            window.editPropositionText(letter);
-        }
-    };
-}
+            if (!isInPalette && letter !== 'K') {
+                bubble.onclick = function(e) {
+                    e.stopPropagation();
+                    if (window.editPropositionText && typeof window.editPropositionText === 'function') {
+                        window.editPropositionText(letter);
+                    }
+                };
+            }
             
             // Special styling for K to indicate it's not editable
             if (letter === 'K') {
@@ -1624,9 +1877,9 @@ if (!isInPalette && letter !== 'K') {
                             const text = window.statementDefinitions[ast.letter] || `[${ast.letter}]`;
                             return `<strong>${ast.letter}</strong>: ${text}`;
                         } else if (ast.type === 'operator') {
-                            if (ast.operator === 'NOT') {
-                                return `NOT (${astToReadableString(ast.operand)})`;
-                            } else if (ast.operator === 'IFTHEN') {
+    if (ast.operator === 'NOT') {
+        return `It is not the case that (${astToReadableString(ast.operand)})`;
+    } else if (ast.operator === 'IFTHEN') {
                                 return `IF (${astToReadableString(ast.operands[0])}) THEN (${astToReadableString(ast.operands[1])})`;
                             } else {
                                 return `(${astToReadableString(ast.operands[0])}) ${ast.operator} (${astToReadableString(ast.operands[1])})`;
@@ -1915,56 +2168,78 @@ if (!isInPalette && letter !== 'K') {
         console.log("Script 2: Starting main script");
         
         // Complete claims data
-        const claimsByCategory = {
-            "Politics & Governance": { 
-                "Electoral Systems & Reform": [ { value: 'pol_esr_001', text: 'Compulsory voting should be implemented in all democratic nations.' }, { value: 'pol_esr_002', text: 'Lowering the voting age to 16 would enhance civic engagement.' }, { value: 'pol_esr_003', text: 'Proportional representation electoral systems are fairer than first-past-the-post systems.' }, { value: 'pol_esr_004', text: 'Strict campaign finance limits are essential for reducing political corruption.' }, { value: 'pol_esr_005', text: 'Online voting systems are secure enough for widespread use in national elections.' } ],
-                "Civil Rights & Liberties": [ { value: 'pol_crl_001', text: 'Freedom of speech should have no limitations, even for hate speech.' }, { value: 'pol_crl_002', text: 'Government surveillance of citizens is justified for national security purposes.' }, { value: 'pol_crl_003', text: 'The right to privacy is more important than the needs of law enforcement.' }, { value: 'pol_crl_004', text: 'Affirmative action policies are necessary to address historical injustices.' }, { value: 'pol_crl_005', text: 'Citizens should have the right to bear arms with minimal restrictions.' } ],
-                "Political Ideologies": [ { value: 'pol_pid_001', text: 'Socialism offers a more equitable societal structure than capitalism.' }, { value: 'pol_pid_002', text: 'Libertarianism provides the optimal balance of individual freedom and limited government.' }, { value: 'pol_pid_003', text: 'Nationalism is a detrimental force in international relations.' }, { value: 'pol_pid_004', text: 'A global governing body would be beneficial for humanity.' } ]
-            },
-            "Technology & Innovation": { 
-                "Artificial Intelligence": [ { value: 'tec_ai_001', text: 'The development of artificial general intelligence (AGI) poses an existential threat to humanity.' }, { value: 'tec_ai_002', text: 'AI will create more jobs than it eliminates in the long run.' }, { value: 'tec_ai_003', text: 'Governments should heavily regulate AI development to prevent misuse.' }, { value: 'tec_ai_004', text: 'AI-driven decision-making in areas like criminal justice can be free of human bias.' }, { value: 'tec_ai_005', text: 'Consciousness can emerge in advanced AI systems.' } ],
-                "Internet & Digital Society": [ { value: 'tec_ids_001', text: 'Social media platforms have a net negative impact on society.' }, { value: 'tec_ids_002', text: 'Net neutrality is essential for a fair and open internet.' }, { value: 'tec_ids_003', text: 'Online anonymity does more harm than good.' }, { value: 'tec_ids_004', text: 'The spread of misinformation online can only be solved by platform censorship.' }, { value: 'tec_ids_005', text: 'Decentralized web technologies (Web3) will fundamentally change the internet.' } ],
-                "Biotechnology & Futurism": [ { value: 'tec_bio_001', text: 'Genetic engineering of humans should be pursued to enhance capabilities.' }, { value: 'tec_bio_002', text: 'Cryonics (freezing bodies for future revival) is a plausible path to life extension.' }, { value: 'tec_bio_003', text: 'Widespread adoption of lab-grown meat is inevitable and beneficial.' }, { value: 'tec_bio_004', text: 'Human colonization of other planets is essential for the long-term survival of the species.' } ]
-            },
-            "Environment & Sustainability": { 
-                "Climate Change": [ { value: 'env_cc_001', text: 'Global carbon emissions must reach net-zero by 2050 to avoid catastrophic climate change.' }, { value: 'env_cc_002', text: 'Individual lifestyle changes are more critical than government policies in combating climate change.' }, { value: 'env_cc_003', text: 'Nuclear power is a necessary component of a low-carbon energy future.' }, { value: 'env_cc_004', text: 'Carbon capture technologies are a viable solution to significantly reduce atmospheric CO2.' }, { value: 'env_cc_005', text: 'The economic costs of transitioning to a green economy outweigh the benefits.' } ],
-                "Conservation & Resources": [ { value: 'env_cr_001', text: 'Protecting biodiversity should take precedence over economic development.' }, { value: 'env_cr_002', text: 'Freshwater will become a more significant source of conflict than oil in the future.' }, { value: 'env_cr_003', text: 'Trophy hunting can be a legitimate tool for wildlife conservation funding.' }, { value: 'env_cr_004', text: 'Humans have a moral obligation to prevent the extinction of any species.' } ],
-                "Sustainable Living": [ { value: 'env_sl_001', text: 'A global shift to a primarily plant-based diet is essential for environmental sustainability.' }, { value: 'env_sl_002', text: 'Minimalism as a lifestyle is a key to reducing environmental impact.' }, { value: 'env_sl_003', text: 'Circular economies are the only long-term solution to resource depletion.' }, { value: 'env_sl_004', text: 'Consumerism is inherently incompatible with environmental sustainability.' } ]
-            },
-            "Culture & Society": { 
-                "Media & Information": [ { value: 'cul_mi_001', text: 'Traditional news media is inherently biased and no longer trustworthy.' }, { value: 'cul_mi_002', text: 'Citizen journalism does more to inform the public than professional journalism.' }, { value: 'cul_mi_003', text: 'Fact-checking initiatives are effective at combating misinformation.' }, { value: 'cul_mi_004', text: 'The 24/7 news cycle has a detrimental effect on public discourse and mental health.' }, { value: 'cul_mi_005', text: 'Algorithms used by social media platforms create echo chambers that polarize society.' } ],
-                "Social Norms & Traditions": [ { value: 'cul_snt_001', text: 'Traditional gender roles are oppressive and should be dismantled entirely.' }, { value: 'cul_snt_002', text: 'Cultural appropriation is harmful and should always be avoided.' }, { value: 'cul_snt_003', text: 'Monogamy is an outdated concept for modern relationships.' }, { value: 'cul_snt_004', text: 'Societal pressure to conform to beauty standards is a primary source of unhappiness.' }, { value: 'cul_snt_005', text: 'Cancel culture is a necessary tool for social accountability.' } ],
-                "Arts & Humanities": [ { value: 'cul_ah_001', text: 'Government funding for the arts is a waste of taxpayer money.' }, { value: 'cul_ah_002', text: 'Classical art forms (e.g., opera, ballet) are irrelevant to contemporary society.' }, { value: 'cul_ah_003', text: 'The primary purpose of art should be to provoke social or political change.' }, { value: 'cul_ah_004', text: 'Video games should be considered a legitimate art form on par with film or literature.' }, { value: 'cul_ah_005', text: 'Studying humanities is essential for developing critical thinking and empathy.' } ],
-                "Religion & Spirituality": [ { value: 'cul_rs_001', text: 'Organized religion has a net negative impact on human progress.' }, { value: 'cul_rs_002', text: 'Religious belief is incompatible with a scientific worldview.' }, { value: 'cul_rs_003', text: 'Secularism in government is the only way to ensure religious freedom for all.' }, { value: 'cul_rs_004', text: 'Spiritual experiences are valid even without a belief in a deity.' }, { value: 'cul_rs_005', text: 'Religious texts should be interpreted literally.' } ]
-            },
-            "Health & Wellness": { 
-                "Healthcare Systems & Policy": [ { value: 'hea_hsp_001', text: 'Universal healthcare, funded by taxes, is the most ethical way to provide medical services.' }, { value: 'hea_hsp_002', text: 'Pharmaceutical companies should have their drug prices heavily regulated by the government.' }, { value: 'hea_hsp_003', text: 'Preventive healthcare should receive significantly more funding than treatment-focused care.' }, { value: 'hea_hsp_004', text: 'Individuals should have the right to refuse any mandatory medical treatment, including vaccines.' }, { value: 'hea_hsp_005', text: 'The privatization of healthcare leads to better quality and innovation.' } ],
-                "Medical Ethics & Research": [ { value: 'hea_mer_001', text: 'Animal testing for medical research is a necessary evil.' }, { value: 'hea_mer_002', text: 'Human cloning, even for therapeutic purposes, is unethical.' }, { value: 'hea_mer_003', text: 'Physician-assisted suicide should be a legal option for terminally ill patients.' }, { value: 'hea_mer_004', text: 'Placebos should never be used in clinical trials if an existing treatment is available.' }, { value: 'hea_mer_005', text: 'Genetic data from individuals should be freely available for medical research without explicit consent for each use.' } ],
-                "Nutrition & Diet": [ { value: 'hea_nd_006', text: 'Government regulation of unhealthy foods (e.g., sugar tax) is an infringement on personal liberty.' }, { value: 'hea_nd_007', text: 'Most dietary supplements offer no significant health benefits for the average person.' }, { value: 'hea_nd_008', text: 'Intermittent fasting is a superior method for weight loss and health compared to traditional calorie restriction.' } ],
-                "Mental Health & Psychiatry": [ { value: 'hea_mhp_006', text: 'Over-diagnosis is a significant problem in modern psychiatry.' }, { value: 'hea_mhp_007', text: 'Psychedelic-assisted therapy should be legalized for treating mental health conditions.' }, { value: 'hea_mhp_008', text: 'Social media usage is a primary driver of increasing rates of anxiety and depression in youth.' } ]
-            },
-            "History": { 
-                "Ancient Civilizations": [ { value: 'his_ac_006', text: 'The Roman Empire\'s fall was primarily due to internal decay rather than external pressures.' }, { value: 'his_ac_007', text: 'Ancient Athens provided a better model for democracy than modern representative democracies.' } ],
-                "Modern Era": [ { value: 'his_me_006', text: 'The outcome of World War I inevitably led to World War II.' }, { value: 'his_me_007', text: 'The Enlightenment had a greater impact on shaping the modern world than the Renaissance.' } ],
-                "Historical Interpretation": [ { value: 'his_hi_001', text: 'History is always written by the victors, making objective truth unattainable.' }, { value: 'his_hi_002', text: 'Present-day moral standards should not be used to judge historical figures.' }, { value: 'his_hi_003', text: 'Studying history is crucial for understanding and solving contemporary problems.' } ]
-            },
-            "Philosophy & Ethics": { 
-                "Applied Ethics": [ { value: 'phi_ae_001', text: 'Vegetarianism or veganism is a moral imperative.' }, { value: 'phi_ae_002', text: 'Capitalism is inherently an unethical system.' }, { value: 'phi_ae_003', text: 'Artificial intelligence should be granted rights if it achieves sentience.' }, { value: 'phi_ae_004', text: 'Whistleblowing is always ethically justified when exposing wrongdoing, regardless of consequences.' } ],
-                "Political Philosophy": [ { value: 'phi_pp_001', text: 'The primary role of the state is to ensure the welfare of its citizens.' }, { value: 'phi_pp_002', text: 'Anarchism is a viable and desirable political system.' }, { value: 'phi_pp_003', text: 'Individuals have a moral obligation to disobey unjust laws.' } ]
-            },
-            "Economics & Business": {
-                "Economic Systems": [ { value: 'eco_es_001', text: 'Pure free-market capitalism leads to the greatest overall prosperity.' }, { value: 'eco_es_002', text: 'A universal basic income (UBI) is a feasible solution to poverty and automation-driven job loss.' }, { value: 'eco_es_003', text: 'Key industries like energy and healthcare should be nationalized.' }, { value: 'eco_es_004', text: 'Economic growth should no longer be the primary goal of developed nations.' } ],
-                "Labor & Employment": [ { value: 'eco_le_001', text: 'Strong labor unions are essential for protecting workers\' rights and wages.' }, { value: 'eco_le_002', text: 'The gig economy exploits workers more than it empowers them.' }, { value: 'eco_le_003', text: 'A federally mandated minimum wage harms employment rates for low-skilled workers.' }, { value: 'eco_le_004', text: 'Automation will inevitably lead to widespread, long-term unemployment.' } ],
-                "Global Trade & Finance": [ { value: 'eco_gtf_001', text: 'Protectionist trade policies ultimately harm the domestic economy.' }, { value: 'eco_gtf_002', text: 'Cryptocurrencies will eventually replace traditional fiat currencies.' }, { value: 'eco_gtf_003', text: 'The World Bank and IMF do more harm than good in developing nations.' } ],
-                "Corporate Ethics & Responsibility": [ { value: 'eco_cer_001', text: 'The sole responsibility of a business is to maximize profits for its shareholders.' }, { value: 'eco_cer_002', text: 'Corporations should be legally mandated to prioritize environmental and social impacts.' }, { value: 'eco_cer_003', text: 'Executive compensation in large corporations is excessively high and unjustified.' } ]
-            },
-            "Education System": { 
-                "Curriculum & Pedagogy": [ { value: 'edu_cp_001', text: 'Standardized curricula hinder creativity and critical thinking in students.' }, { value: 'edu_cp_002', text: 'Education should focus more on vocational skills than liberal arts.' }, { value: 'edu_cp_003', text: 'Inquiry-based learning is more effective than direct instruction for long-term knowledge retention.' }, { value: 'edu_cp_004', text: 'Sex education should be comprehensive and mandatory from an early age in schools.' } ],
-                "Assessment & Standards": [ { value: 'edu_as_001', text: 'Standardized testing is an accurate and fair measure of student ability and school performance.' }, { value: 'edu_as_002', text: 'Letter grades should be abolished in favor of more holistic assessment methods.' }, { value: 'edu_as_003', text: 'Social promotion (advancing students regardless of academic performance) is detrimental to education.' } ],
-                "Higher Education": [ { value: 'edu_he_001', text: 'College education in [Country - e.g., the US] is unaffordable for the average person and needs radical reform.' }, { value: 'edu_he_002', text: 'A university degree is no longer a guarantee of a successful career.' }, { value: 'edu_he_003', text: 'Tenure for university professors should be abolished.' }, { value: 'edu_he_004', text: 'Online universities can provide an education of equal quality to traditional brick-and-mortar institutions.' } ],
-                "Role of Technology in Education": [ { value: 'edu_te_001', text: 'Replacing textbooks with tablets or laptops in K-12 education is beneficial for learning.' }, { value: 'edu_te_002', text: 'AI tutors can be more effective than human tutors for certain subjects.' }, { value: 'edu_te_003', text: 'Increased screen time due to educational technology is harming childrens development.' } ]
-            }
-        };
+const claimsByCategory = {
+    "Everyday Life & Fun": {
+        "Food & Drink Debates": [
+            { value: 'fun_food_001', text: 'Pineapple belongs on pizza.' },
+            { value: 'fun_food_002', text: 'A hot dog is a sandwich.' },
+            { value: 'fun_food_003', text: 'Cereal is a soup.' },
+            { value: 'fun_food_004', text: 'Ketchup belongs on mac and cheese.' },
+            { value: 'fun_food_005', text: 'Coffee is better than tea.' }
+        ],
+        "Household Debates": [
+            { value: 'fun_house_001', text: 'Toilet paper should hang with the loose end over the roll.' },
+            { value: 'fun_house_002', text: 'Shoes should be removed when entering a home.' },
+            { value: 'fun_house_003', text: 'The toilet seat should be left down after use.' },
+            { value: 'fun_house_004', text: 'Dishes should be rinsed before going in the dishwasher.' }
+        ],
+        "Lifestyle Preferences": [
+            { value: 'fun_life_001', text: 'Morning people are more productive than night owls.' },
+            { value: 'fun_life_002', text: 'Cats make better pets than dogs.' },
+            { value: 'fun_life_003', text: 'Books are better than their movie adaptations.' },
+            { value: 'fun_life_004', text: 'Summer is the best season.' }
+        ]
+    },
+    "Sports & Entertainment": {
+        "GOAT Debates": [
+            { value: 'sport_goat_001', text: 'Michael Jordan is the greatest basketball player of all time.' },
+            { value: 'sport_goat_002', text: 'Tom Brady is the greatest NFL quarterback of all time.' },
+            { value: 'sport_goat_003', text: 'Serena Williams is the greatest tennis player of all time.' },
+            { value: 'sport_goat_004', text: 'Wayne Gretzky is the greatest hockey player of all time.' }
+        ],
+        "Entertainment": [
+            { value: 'ent_tv_001', text: 'Die Hard is a Christmas movie.' },
+            { value: 'ent_tv_002', text: 'The book is always better than the movie.' },
+            { value: 'ent_tv_003', text: 'Streaming services are better than cable TV.' },
+            { value: 'ent_tv_004', text: 'Physical books are better than e-readers.' }
+        ],
+        "Gaming": [
+            { value: 'game_001', text: 'PC gaming is superior to console gaming.' },
+            { value: 'game_002', text: 'Video games are a legitimate form of art.' },
+            { value: 'game_003', text: 'Mobile gaming is real gaming.' }
+        ]
+    },
+    "Technology & Modern Life": {
+        "Social Media & Communication": [
+            { value: 'tech_social_001', text: 'Text messages are better than phone calls.' },
+            { value: 'tech_social_002', text: 'Social media does more harm than good.' },
+            { value: 'tech_social_003', text: 'People should use their real names online.' }
+        ],
+        "Work & Productivity": [
+            { value: 'tech_work_001', text: 'Working from home is more productive than working in an office.' },
+            { value: 'tech_work_002', text: 'A four-day work week would increase productivity.' },
+            { value: 'tech_work_003', text: 'Multitasking makes people less efficient.' }
+        ]
+    },
+    "Education & Learning": {
+        "School Debates": [
+            { value: 'edu_school_001', text: 'Schools should start later in the morning.' },
+            { value: 'edu_school_002', text: 'Homework is beneficial for student learning.' },
+            { value: 'edu_school_003', text: 'Year-round schooling is better than summer breaks.' },
+            { value: 'edu_school_004', text: 'Cursive writing should still be taught in schools.' }
+        ],
+        "Learning Methods": [
+            { value: 'edu_learn_001', text: 'Online learning is as effective as in-person learning.' },
+            { value: 'edu_learn_002', text: 'Students learn better with technology in the classroom.' },
+            { value: 'edu_learn_003', text: 'Group projects are valuable learning experiences.' }
+        ]
+    },
+    "Advanced Topics": {
+        "Note": [
+            { value: 'adv_note_001', text: 'More serious topics will be added as the community grows!' }
+        ]
+    }
+};
         
         console.log("Script 2: Claims data defined");
 
@@ -2110,10 +2385,302 @@ if (!isInPalette && letter !== 'K') {
             }
         }
 
-        function displayArguments() {
+        // Function to parse and recreate proposition bubbles in displayed arguments
+function formatArgumentLine(line) {
+    // Create a container for the formatted line
+    const container = document.createElement('div');
+    container.style.display = 'block';
+    container.style.width = '100%';
+    container.style.lineHeight = '2';
+    
+    // Helper function to create a proposition bubble - mobile-friendly version
+    function createBubble(letter, text) {
+        const bubble = document.createElement('span');
+        bubble.className = `palette-item proposition prop-${letter.toLowerCase()}`;
+        bubble.style.display = 'inline-block';
+        bubble.style.margin = '2px 4px';
+        bubble.style.cursor = 'default';
+        bubble.style.verticalAlign = 'middle';
+        
+        // Always show full text if available
+        if (text && text.trim() !== '') {
+            bubble.innerHTML = `<strong>${letter}:</strong> ${text}`;
+            bubble.title = `${letter}: ${text}`;
+            // Mobile-friendly styling
+            bubble.style.padding = '6px 12px';
+            bubble.style.fontSize = '0.875rem';
+            bubble.style.fontWeight = '600';
+            bubble.style.textTransform = 'none';
+            bubble.style.letterSpacing = 'normal';
+            bubble.style.whiteSpace = 'normal';
+            bubble.style.wordWrap = 'break-word';
+            bubble.style.wordBreak = 'normal';
+            bubble.style.hyphens = 'auto';
+            bubble.style.maxWidth = '100%';
+            bubble.style.lineHeight = '1.4';
+            
+            // Adjust for mobile
+            if (window.innerWidth <= 768) {
+                bubble.style.fontSize = '0.8rem';
+                bubble.style.padding = '4px 8px';
+                bubble.style.display = 'inline-block';
+                bubble.style.maxWidth = 'calc(100% - 8px)';
+            }
+        } else {
+            // No text available - just show letter
+            bubble.textContent = letter;
+            bubble.style.padding = '0.5rem 1rem';
+        }
+        
+        return bubble;
+    }
+    
+    // Helper function to create a proposition bubble - ALWAYS show full text
+    function createBubble(letter, text) {
+        const bubble = document.createElement('span');
+        bubble.className = `palette-item proposition prop-${letter.toLowerCase()}`;
+        bubble.style.display = 'inline-block';
+        bubble.style.margin = '0 4px';
+        bubble.style.cursor = 'default';
+        bubble.style.verticalAlign = 'middle';
+        
+        // Always show full text if available
+        if (text && text.trim() !== '') {
+            bubble.innerHTML = `<strong>${letter}:</strong> ${text}`;
+            bubble.title = `${letter}: ${text}`;
+            // Styling for text bubbles with proper wrapping
+            bubble.style.padding = '8px 16px';
+            bubble.style.fontSize = '0.875rem';
+            bubble.style.fontWeight = '600';
+            bubble.style.textTransform = 'none';
+            bubble.style.letterSpacing = 'normal';
+            bubble.style.whiteSpace = 'normal';  // Allow text wrapping
+            bubble.style.wordWrap = 'break-word';  // Break long words if needed
+            bubble.style.wordBreak = 'break-word';  // Ensure words break properly
+            bubble.style.maxWidth = '600px';  // Increased width for better readability
+            bubble.style.display = 'inline-block';
+            bubble.style.lineHeight = '1.4';  // Better line spacing for wrapped text
+            bubble.style.verticalAlign = 'top';  // Align wrapped bubbles properly
+        } else {
+            // No text available - just show letter
+            bubble.textContent = letter;
+            bubble.style.padding = '0.5rem 1rem';
+        }
+        
+        return bubble;
+    }
+    
+    // Helper function to create operator spans
+function createOperator(text, isNot = false) {
+    const span = document.createElement('span');
+    span.style.fontWeight = '600';
+    span.style.color = '#4a5568';
+    span.style.margin = isNot ? '0 4px' : '0 8px';
+    span.style.fontStyle = 'italic';
+    span.style.whiteSpace = 'nowrap';
+    
+    span.textContent = text;
+    return span;
+}
+    
+    // Extract all proposition definitions first
+    const definitions = {};
+    const defPattern = /<strong>([A-K])<\/strong>:\s*([^<]+?)(?=\s*(?:<strong>|IF|THEN|AND|OR|NOT|\(|\)|Therefore:|$))/g;
+    let match;
+    while ((match = defPattern.exec(line)) !== null) {
+        definitions[match[1]] = match[2].trim();
+    }
+    
+    // Special handling for K - it might come from the main claim
+    if (!definitions['K'] && window.mainClaimText) {
+        definitions['K'] = window.mainClaimText;
+    }
+    
+    // Function to recursively parse and build the visual structure
+    function parseExpression(expr) {
+        expr = expr.trim();
+        
+        // First, check if it's just a letter (with or without parentheses)
+        // This handles: A, (A), K, (K), etc.
+        const simpleLetterMatch = expr.match(/^\(?([A-K])\)?$/);
+        if (simpleLetterMatch) {
+            return createBubble(simpleLetterMatch[1], definitions[simpleLetterMatch[1]]);
+        }
+        
+        // Handle NOT - now checking for both "NOT" and "It is not the case that"
+if (expr.startsWith('NOT') || expr.startsWith('It is not the case that')) {
+    const group = document.createElement('span');
+    group.style.display = 'inline-block';
+    group.style.alignItems = 'center';
+    group.style.border = '1px solid #d0d0d0';
+    group.style.padding = '4px 8px';
+    group.style.borderRadius = '6px';
+    group.style.backgroundColor = '#f8f9fa';
+    group.style.margin = '0 2px';
+    
+    group.appendChild(createOperator('It is not the case that', true));
+    
+    // Find what NOT applies to
+    let remaining;
+    if (expr.startsWith('NOT')) {
+        remaining = expr.substring(3).trim();
+    } else {
+        remaining = expr.substring('It is not the case that'.length).trim();
+    }
+    group.appendChild(parseExpression(remaining));
+    return group;
+}
+        
+        // Handle IF...THEN
+        if (expr.startsWith('IF')) {
+            const group = document.createElement('span');
+            group.style.display = 'inline-block';
+            group.style.alignItems = 'center';
+            group.style.border = '1px solid #d0d0d0';
+            group.style.padding = '4px 8px';
+            group.style.borderRadius = '6px';
+            group.style.backgroundColor = '#f8f9fa';
+            group.style.margin = '0 2px';
+            
+            // Parse IF part
+            group.appendChild(createOperator('IF'));
+            
+            const thenIndex = expr.indexOf('THEN');
+            if (thenIndex > 0) {
+                let ifPart = expr.substring(2, thenIndex).trim();
+                group.appendChild(parseExpression(ifPart));
+                
+                group.appendChild(createOperator('THEN'));
+                
+                let thenPart = expr.substring(thenIndex + 4).trim();
+                group.appendChild(parseExpression(thenPart));
+            }
+            
+            return group;
+        }
+        
+        // Handle expressions with AND/OR (with or without outer parentheses)
+        // First remove outer parentheses if they exist
+        let innerExpr = expr;
+        if (expr.startsWith('(') && expr.endsWith(')')) {
+            // Check if these are the outermost parentheses
+            let depth = 0;
+            let isOuterParen = true;
+            for (let i = 0; i < expr.length - 1; i++) {
+                if (expr[i] === '(') depth++;
+                if (expr[i] === ')') depth--;
+                if (depth === 0) {
+                    isOuterParen = false;
+                    break;
+                }
+            }
+            if (isOuterParen) {
+                innerExpr = expr.substring(1, expr.length - 1);
+            }
+        }
+        
+        // Look for AND or OR at the top level
+        let depth = 0;
+        let operatorPos = -1;
+        let operator = '';
+        
+        for (let i = 0; i < innerExpr.length; i++) {
+            if (innerExpr[i] === '(') depth++;
+            if (innerExpr[i] === ')') depth--;
+            
+            if (depth === 0) {
+                if (innerExpr.substring(i).startsWith(' AND ')) {
+                    operatorPos = i;
+                    operator = 'AND';
+                    break;
+                }
+                if (innerExpr.substring(i).startsWith(' OR ')) {
+                    operatorPos = i;
+                    operator = 'OR';
+                    break;
+                }
+            }
+        }
+        
+        if (operatorPos > -1 && operator) {
+            const group = document.createElement('span');
+            group.style.display = 'inline-block';
+            group.style.alignItems = 'center';
+            group.style.border = '1px solid #d0d0d0';
+            group.style.padding = '4px 8px';
+            group.style.borderRadius = '6px';
+            group.style.backgroundColor = '#f8f9fa';
+            group.style.margin = '0 2px';
+            
+            const leftPart = innerExpr.substring(0, operatorPos).trim();
+            const rightPart = innerExpr.substring(operatorPos + operator.length + 2).trim();
+            
+            group.appendChild(parseExpression(leftPart));
+group.appendChild(createOperator(operator));
+group.appendChild(parseExpression(rightPart));
+            
+            return group;
+        }
+        
+        // If we got here and the expression is still in parentheses, remove them and try again
+        if (expr !== innerExpr) {
+            return parseExpression(innerExpr);
+        }
+        
+        // Fallback - return as text
+        const span = document.createElement('span');
+        span.textContent = expr;
+        return span;
+    }
+    
+    // Main line processing
+    // Check if it's a conclusion line
+    if (line.includes('Therefore:')) {
+    const thereforeSpan = document.createElement('span');
+    thereforeSpan.style.fontWeight = 'bold';
+    thereforeSpan.style.marginRight = '8px';
+    thereforeSpan.style.color = '#48bb78';  // Green color for conclusion
+    thereforeSpan.style.fontSize = '1.1rem';
+    thereforeSpan.textContent = 'Therefore: ';
+        container.appendChild(thereforeSpan);
+        
+        // Extract the conclusion part
+        const conclusionPart = line.substring(line.indexOf('Therefore:') + 10);
+        
+        // Remove HTML tags to get clean conclusion
+        const cleanConclusion = conclusionPart.replace(/<strong>([A-K])<\/strong>:\s*[^<]+?(?=\s*(?:<strong>|IF|THEN|AND|OR|NOT|\(|\)|$))/g, '$1').trim();
+        
+        // Parse the conclusion
+        container.appendChild(parseExpression(cleanConclusion));
+        
+        return container;
+    }
+    
+    // For regular premises
+    // Check if line contains logical operators
+    const hasOperators = /\b(IF|THEN|AND|OR|NOT)\b/.test(line);
+    
+    if (!hasOperators) {
+        // Simple proposition
+        const simpleMatch = line.match(/<strong>([A-K])<\/strong>:\s*(.+)$/);
+        if (simpleMatch) {
+            container.appendChild(createBubble(simpleMatch[1], simpleMatch[2]));
+            return container;
+        }
+    }
+    
+    // Complex expression - parse it
+    const cleanFormula = line.replace(/<strong>([A-K])<\/strong>:\s*[^<]+?(?=\s*(?:<strong>|IF|THEN|AND|OR|NOT|\(|\)|$))/g, '$1');
+    container.appendChild(parseExpression(cleanFormula));
+    
+    return container;
+}
+
+        function displayArguments(showNext = false) {
             const argumentsList = document.getElementById('argumentsList');
             if (!argumentsList) return;
             
+            // Always clear the list to show only one argument at a time
             argumentsList.innerHTML = '';
 
             const rankingMethod = document.getElementById('rankingSelect').value;
@@ -2131,184 +2698,415 @@ if (!isInPalette && letter !== 'K') {
                 query = query.where('stanceText', '==', stanceFilter);
             }
 
-            // Add ordering
-            if (rankingMethod === 'mostEndorsed') {
-                query = query.orderBy('endorsements', 'desc');
-            } else if (rankingMethod === 'highestPercentage') {
-                query = query.orderBy('endorsementPercentage', 'desc');
-            } else { // mostRecent
-                query = query.orderBy('createdAt', 'desc');
-            }
-
-            // Fetch and render arguments
-            query.get().then((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                    const argumentObj = doc.data();
-                    argumentObj.id = doc.id;
-
-                    // Render argument
-                    const argumentDiv = document.createElement('div');
-                    argumentDiv.className = 'argument';
-                    argumentDiv.dataset.id = argumentObj.id;
-
-                    const argumentHeader = document.createElement('div');
-                    argumentHeader.className = 'argument-header';
-
-                    const stanceIcon = document.createElement('i');
-                    stanceIcon.className = 'argument-icon ' + (argumentObj.stanceText === 'For' ? 'fas fa-thumbs-up' : 'fas fa-thumbs-down');
-
-                    const argumentTitle = document.createElement('h3');
-                    argumentTitle.className = 'argument-title';
-                    argumentTitle.textContent = argumentObj.title;
-
-                    argumentHeader.appendChild(stanceIcon);
-                    argumentHeader.appendChild(argumentTitle);
-
-                    const claimElement = document.createElement('p');
-                    claimElement.innerHTML = `<strong>Claim (${argumentObj.stanceText}):</strong> ${argumentObj.claimText}`;
-                    claimElement.style.marginTop = '15px';
-                    claimElement.style.fontSize = '20px';
-                    claimElement.style.color = '#555';
-
-                    const argumentContentDiv = document.createElement('div');
-                    argumentContentDiv.className = 'argument-content';
-
-                    const ol = document.createElement('ol');
-
-                    argumentObj.argumentLines.forEach((line, index) => {
-                        const li = document.createElement('li');
-
-                        const premiseText = document.createElement('span');
-                        premiseText.className = 'premise-text';
-                        premiseText.innerHTML = line;
-
-                        li.appendChild(premiseText);
-
-                        // Add URL next to the premise if available
-                        if (argumentObj.premiseURLs && argumentObj.premiseURLs[index]) {
-                            const urlLink = document.createElement('a');
-                            urlLink.href = argumentObj.premiseURLs[index];
-                            urlLink.target = '_blank';
-                            urlLink.rel = 'noopener noreferrer';
-                            urlLink.textContent = 'View Evidence';
-                            urlLink.className = 'premise-url';
-                            urlLink.style.marginLeft = '10px';
-                            urlLink.style.color = '#007bff';
-                            urlLink.style.textDecoration = 'underline';
-                            li.appendChild(urlLink);
-                        }
-
-                        // Add buttons
-                        if (index < argumentObj.argumentLines.length - 1) {
-                            const voteContainer = document.createElement('div');
-                            voteContainer.className = 'premise-vote-container';
-                            
-                            const disagreeButton = document.createElement('button');
-                            disagreeButton.textContent = 'Disagree with this premise';
-                            disagreeButton.className = 'disagree-premise-button';
-                            disagreeButton.dataset.argumentId = argumentObj.id;
-                            disagreeButton.dataset.premiseIndex = index;
-                            
-                            // Always set initial onclick to check authentication
-                            disagreeButton.onclick = function() {
-                                const currentUser = firebase.auth().currentUser;
-                                if (!currentUser) {
-                                    alert('You must be logged in to disagree with a premise.');
-                                    return;
-                                }
-                                updateDisagreement(this.dataset.argumentId, parseInt(this.dataset.premiseIndex));
-                            };
-                            
-                            // If user is logged in, check their voting status
-                            if (user) {
-                                Promise.all([
-                                    checkUserEndorsement(argumentObj.id),
-                                    checkUserDisagreement(argumentObj.id, index)
-                                ]).then(([hasEndorsed, hasDisagreed]) => {
-                                    if (hasEndorsed) {
-                                        // User endorsed, so disable disagree button
-                                        disagreeButton.textContent = 'Already endorsed conclusion';
-                                        disagreeButton.disabled = true;
-                                        disagreeButton.style.backgroundColor = '#6c757d';
-                                        disagreeButton.style.cursor = 'not-allowed';
-                                        disagreeButton.onclick = null;
-                                    } else if (hasDisagreed) {
-                                        // User already disagreed with this premise
-                                        disagreeButton.textContent = 'Remove Disagreement';
-                                        disagreeButton.style.backgroundColor = '#6c757d';
-                                        disagreeButton.onclick = function() {
-                                            removeDisagreement(this.dataset.argumentId, parseInt(this.dataset.premiseIndex));
-                                        };
-                                    }
-                                });
-                            }
-                            
-                            voteContainer.appendChild(disagreeButton);
-                            li.appendChild(voteContainer);
-                        } else {
-                            const endorseButton = document.createElement('button');
-                            endorseButton.textContent = 'Endorse Conclusion';
-                            endorseButton.className = 'endorse-conclusion-button';
-                            endorseButton.dataset.argumentId = argumentObj.id;
-                            
-                            // Always set initial onclick to check authentication
-                            endorseButton.onclick = function() {
-                                const currentUser = firebase.auth().currentUser;
-                                if (!currentUser) {
-                                    alert('You must be logged in to endorse the conclusion.');
-                                    return;
-                                }
-                                updateEndorsement(this.dataset.argumentId);
-                            };
-                            
-                            // If user is logged in, check their voting status
-                            if (user) {
-                                Promise.all([
-                                    checkUserEndorsement(argumentObj.id),
-                                    checkUserAnyDisagreement(argumentObj.id)
-                                ]).then(([hasEndorsed, hasDisagreed]) => {
-                                    if (hasDisagreed) {
-                                        // User disagreed with a premise, so disable endorse button
-                                        endorseButton.textContent = 'Already disagreed with premise';
-                                        endorseButton.disabled = true;
-                                        endorseButton.style.backgroundColor = '#6c757d';
-                                        endorseButton.style.cursor = 'not-allowed';
-                                        endorseButton.onclick = null;
-                                    } else if (hasEndorsed) {
-                                        // User already endorsed
-                                        endorseButton.textContent = 'Remove Endorsement';
-                                        endorseButton.style.backgroundColor = '#6c757d';
-                                        endorseButton.onclick = function() {
-                                            removeEndorsement(this.dataset.argumentId);
-                                        };
-                                    }
-                                });
-                            }
-                            
-                            li.appendChild(document.createElement('br'));
-                            li.appendChild(endorseButton);
-                        }
-
-                        ol.appendChild(li);
+            // For random mode, we'll fetch all and select randomly
+            if (rankingMethod === 'random') {
+                query.get().then((querySnapshot) => {
+                    if (querySnapshot.empty) {
+                        argumentsList.innerHTML = '<p style="text-align: center; color: #666;">No arguments found matching your filters.</p>';
+                        document.getElementById('nextButton').style.display = 'none';
+                        return;
+                    }
+                    
+                    // Convert to array for random selection
+                    const allArguments = [];
+                    querySnapshot.forEach((doc) => {
+                        const argumentObj = doc.data();
+                        argumentObj.id = doc.id;
+                        allArguments.push(argumentObj);
                     });
-
-                    argumentContentDiv.appendChild(ol);
-
-                    // Display endorsement stats
-                    const endorsementStats = document.createElement('div');
-                    endorsementStats.className = 'endorsement-stats';
-                    endorsementStats.textContent = `Endorsements: ${argumentObj.endorsements || 0} | Disagreements: ${argumentObj.disagreements || 0} | Endorsement Percentage: ${argumentObj.endorsementPercentage ? argumentObj.endorsementPercentage.toFixed(2) : 0}%`;
-
-                    argumentDiv.appendChild(argumentHeader);
-                    argumentDiv.appendChild(claimElement);
-                    argumentDiv.appendChild(argumentContentDiv);
-                    argumentDiv.appendChild(endorsementStats);
-
-                    argumentsList.appendChild(argumentDiv);
+                    
+                    // Store in window for next random selection
+                    if (!showNext) {
+                        window.availableArguments = [...allArguments];
+                        window.shownArgumentIds = new Set();
+                        argumentsList.innerHTML = '';
+                    }
+                    
+                    // Filter out already shown arguments
+                    const remainingArguments = window.availableArguments.filter(arg => !window.shownArgumentIds.has(arg.id));
+                    
+                    if (remainingArguments.length === 0) {
+                        // Reset if all arguments have been shown
+                        window.shownArgumentIds.clear();
+                        window.availableArguments = [...allArguments];
+                    }
+                    
+                    // Select random argument from remaining
+                    const finalPool = window.shownArgumentIds.size === 0 ? window.availableArguments : remainingArguments;
+                    const randomIndex = Math.floor(Math.random() * finalPool.length);
+                    const selectedArgument = finalPool[randomIndex];
+                    
+                    if (selectedArgument) {
+                        window.shownArgumentIds.add(selectedArgument.id);
+                        renderArgument(selectedArgument, user, argumentsList);
+                        
+                        // Show "Show Another" button
+                        document.getElementById('nextButton').style.display = 'inline-block';
+                        document.getElementById('filterButton').textContent = 'Reset';
+                    }
+                }).catch((error) => {
+                    console.error("Error getting documents: ", error);
+                    argumentsList.innerHTML = '<p style="text-align: center; color: #dc3545;">Error loading arguments. Please try again.</p>';
                 });
-            }).catch((error) => {
-                console.error("Error getting documents: ", error);
+            } else {
+                // Original ordering logic for non-random modes
+                document.getElementById('nextButton').style.display = 'none';
+                document.getElementById('filterButton').textContent = 'Show Arguments';
+                
+                // Add ordering
+                if (rankingMethod === 'mostEndorsed') {
+                    query = query.orderBy('endorsements', 'desc');
+                } else if (rankingMethod === 'highestPercentage') {
+                    query = query.orderBy('endorsementPercentage', 'desc');
+                } else { // mostRecent
+                    query = query.orderBy('createdAt', 'desc');
+                }
+
+                // Show all arguments for non-random modes
+                query.limit(10).get().then((querySnapshot) => {
+                    if (querySnapshot.empty) {
+                        argumentsList.innerHTML = '<p style="text-align: center; color: #666;">No arguments found matching your filters.</p>';
+                        return;
+                    }
+                    
+                    querySnapshot.forEach((doc) => {
+                        const argumentObj = doc.data();
+                        argumentObj.id = doc.id;
+                        renderArgument(argumentObj, user, argumentsList);
+                    });
+                }).catch((error) => {
+                    console.error("Error getting documents: ", error);
+                    argumentsList.innerHTML = '<p style="text-align: center; color: #dc3545;">Error loading arguments. Please try again.</p>';
+                });
+            }
+        }
+
+// Extract the argument rendering logic into a separate function
+        function renderArgument(argumentObj, user, container) {
+            // Render argument
+            const argumentDiv = document.createElement('div');
+            argumentDiv.className = 'argument';
+            argumentDiv.dataset.id = argumentObj.id;
+
+            const argumentHeader = document.createElement('div');
+            argumentHeader.className = 'argument-header';
+
+            const stanceIcon = document.createElement('i');
+            stanceIcon.className = 'argument-icon ' + (argumentObj.stanceText === 'For' ? 'fas fa-thumbs-up' : 'fas fa-thumbs-down');
+
+            const argumentTitle = document.createElement('h3');
+            argumentTitle.className = 'argument-title';
+            argumentTitle.textContent = argumentObj.title;
+
+            argumentHeader.appendChild(stanceIcon);
+            argumentHeader.appendChild(argumentTitle);
+
+            const claimElement = document.createElement('p');
+            claimElement.innerHTML = `<strong>Claim (${argumentObj.stanceText}):</strong> ${argumentObj.claimText}`;
+            claimElement.style.marginTop = '15px';
+            claimElement.style.fontSize = '20px';
+            claimElement.style.color = '#555';
+
+            const argumentContentDiv = document.createElement('div');
+            argumentContentDiv.className = 'argument-content';
+
+            const ol = document.createElement('ol');
+
+            argumentObj.argumentLines.forEach((line, index) => {
+                const li = document.createElement('li');
+
+                const premiseText = document.createElement('span');
+                premiseText.className = 'premise-text';
+                // Use the formatter to recreate bubbles
+                const formattedContent = formatArgumentLine(line);
+                premiseText.appendChild(formattedContent);
+
+                li.appendChild(premiseText);
+
+                // Add URL next to the premise if available
+                if (argumentObj.premiseURLs && argumentObj.premiseURLs[index]) {
+                    const urlLink = document.createElement('a');
+                    urlLink.href = argumentObj.premiseURLs[index];
+                    urlLink.target = '_blank';
+                    urlLink.rel = 'noopener noreferrer';
+                    urlLink.textContent = 'View Evidence';
+                    urlLink.className = 'premise-url';
+                    urlLink.style.marginLeft = '10px';
+                    urlLink.style.color = '#007bff';
+                    urlLink.style.textDecoration = 'underline';
+                    li.appendChild(urlLink);
+                }
+
+                // Add buttons
+                if (index < argumentObj.argumentLines.length - 1) {
+                    const voteContainer = document.createElement('div');
+                    voteContainer.className = 'premise-vote-container';
+                    
+                    const disagreeButton = document.createElement('button');
+                    disagreeButton.textContent = 'Disagree with this premise';
+                    disagreeButton.className = 'disagree-premise-button';
+                    disagreeButton.dataset.argumentId = argumentObj.id;
+                    disagreeButton.dataset.premiseIndex = index;
+                    
+                    // Always set initial onclick to check authentication
+                    disagreeButton.onclick = function() {
+                        const currentUser = firebase.auth().currentUser;
+                        if (!currentUser) {
+                            alert('You must be logged in to disagree with a premise.');
+                            return;
+                        }
+                        updateDisagreement(this.dataset.argumentId, parseInt(this.dataset.premiseIndex));
+                    };
+                    
+                    // If user is logged in, check their voting status
+                    if (user) {
+                        Promise.all([
+                            checkUserEndorsement(argumentObj.id),
+                            checkUserDisagreement(argumentObj.id, index)
+                        ]).then(([hasEndorsed, hasDisagreed]) => {
+                            if (hasEndorsed) {
+                                // User endorsed, so disable disagree button
+                                disagreeButton.textContent = 'Already endorsed conclusion';
+                                disagreeButton.disabled = true;
+                                disagreeButton.style.backgroundColor = '#6c757d';
+                                disagreeButton.style.cursor = 'not-allowed';
+                                disagreeButton.onclick = null;
+                            } else if (hasDisagreed) {
+                                // User already disagreed with this premise
+                                disagreeButton.textContent = 'Remove Disagreement';
+                                disagreeButton.style.backgroundColor = '#6c757d';
+                                disagreeButton.onclick = function() {
+                                    removeDisagreement(this.dataset.argumentId, parseInt(this.dataset.premiseIndex));
+                                };
+                            }
+                        });
+                    }
+                    
+                    voteContainer.appendChild(disagreeButton);
+                    li.appendChild(voteContainer);
+                } else {
+                    const endorseButton = document.createElement('button');
+                    endorseButton.textContent = 'Endorse Conclusion';
+                    endorseButton.className = 'endorse-conclusion-button';
+                    endorseButton.dataset.argumentId = argumentObj.id;
+                    
+                    // Always set initial onclick to check authentication
+                    endorseButton.onclick = function() {
+                        const currentUser = firebase.auth().currentUser;
+                        if (!currentUser) {
+                            alert('You must be logged in to endorse the conclusion.');
+                            return;
+                        }
+                        updateEndorsement(this.dataset.argumentId);
+                    };
+                    
+                    // If user is logged in, check their voting status
+                    if (user) {
+                        Promise.all([
+                            checkUserEndorsement(argumentObj.id),
+                            checkUserAnyDisagreement(argumentObj.id)
+                        ]).then(([hasEndorsed, hasDisagreed]) => {
+                            if (hasDisagreed) {
+                                // User disagreed with a premise, so disable endorse button
+                                endorseButton.textContent = 'Already disagreed with premise';
+                                endorseButton.disabled = true;
+                                endorseButton.style.backgroundColor = '#6c757d';
+                                endorseButton.style.cursor = 'not-allowed';
+                                endorseButton.onclick = null;
+                            } else if (hasEndorsed) {
+                                // User already endorsed
+                                endorseButton.textContent = 'Remove Endorsement';
+                                endorseButton.style.backgroundColor = '#6c757d';
+                                endorseButton.onclick = function() {
+                                    removeEndorsement(this.dataset.argumentId);
+                                };
+                            }
+                        });
+                    }
+                    
+                    li.appendChild(document.createElement('br'));
+                    li.appendChild(endorseButton);
+                }
+
+                ol.appendChild(li);
             });
+
+            argumentContentDiv.appendChild(ol);
+
+            // Display endorsement stats
+            const endorsementStats = document.createElement('div');
+            endorsementStats.className = 'endorsement-stats';
+            endorsementStats.textContent = `Endorsements: ${argumentObj.endorsements || 0} | Disagreements: ${argumentObj.disagreements || 0} | Endorsement Percentage: ${argumentObj.endorsementPercentage ? argumentObj.endorsementPercentage.toFixed(2) : 0}%`;
+
+            argumentDiv.appendChild(argumentHeader);
+            argumentDiv.appendChild(claimElement);
+            argumentDiv.appendChild(argumentContentDiv);
+            argumentDiv.appendChild(endorsementStats);
+
+            container.appendChild(argumentDiv);
+        }
+        function renderArgument(argumentObj, user, container) {
+            // Render argument
+            const argumentDiv = document.createElement('div');
+            argumentDiv.className = 'argument';
+            argumentDiv.dataset.id = argumentObj.id;
+
+            const argumentHeader = document.createElement('div');
+            argumentHeader.className = 'argument-header';
+
+            const stanceIcon = document.createElement('i');
+            stanceIcon.className = 'argument-icon ' + (argumentObj.stanceText === 'For' ? 'fas fa-thumbs-up' : 'fas fa-thumbs-down');
+
+            const argumentTitle = document.createElement('h3');
+            argumentTitle.className = 'argument-title';
+            argumentTitle.textContent = argumentObj.title;
+
+            argumentHeader.appendChild(stanceIcon);
+            argumentHeader.appendChild(argumentTitle);
+
+            const claimElement = document.createElement('p');
+            claimElement.innerHTML = `<strong>Claim (${argumentObj.stanceText}):</strong> ${argumentObj.claimText}`;
+            claimElement.style.marginTop = '15px';
+            claimElement.style.fontSize = '20px';
+            claimElement.style.color = '#555';
+
+            const argumentContentDiv = document.createElement('div');
+            argumentContentDiv.className = 'argument-content';
+
+            const ol = document.createElement('ol');
+
+            argumentObj.argumentLines.forEach((line, index) => {
+                const li = document.createElement('li');
+
+                const premiseText = document.createElement('span');
+                premiseText.className = 'premise-text';
+                // Use the formatter to recreate bubbles
+                const formattedContent = formatArgumentLine(line);
+                premiseText.appendChild(formattedContent);
+
+                li.appendChild(premiseText);
+
+                // Add URL next to the premise if available
+                if (argumentObj.premiseURLs && argumentObj.premiseURLs[index]) {
+                    const urlLink = document.createElement('a');
+                    urlLink.href = argumentObj.premiseURLs[index];
+                    urlLink.target = '_blank';
+                    urlLink.rel = 'noopener noreferrer';
+                    urlLink.textContent = 'View Evidence';
+                    urlLink.className = 'premise-url';
+                    urlLink.style.marginLeft = '10px';
+                    urlLink.style.color = '#007bff';
+                    urlLink.style.textDecoration = 'underline';
+                    li.appendChild(urlLink);
+                }
+
+                // Add buttons
+                if (index < argumentObj.argumentLines.length - 1) {
+                    const voteContainer = document.createElement('div');
+                    voteContainer.className = 'premise-vote-container';
+                    
+                    const disagreeButton = document.createElement('button');
+                    disagreeButton.textContent = 'Disagree with this premise';
+                    disagreeButton.className = 'disagree-premise-button';
+                    disagreeButton.dataset.argumentId = argumentObj.id;
+                    disagreeButton.dataset.premiseIndex = index;
+                    
+                    // Always set initial onclick to check authentication
+                    disagreeButton.onclick = function() {
+                        const currentUser = firebase.auth().currentUser;
+                        if (!currentUser) {
+                            alert('You must be logged in to disagree with a premise.');
+                            return;
+                        }
+                        updateDisagreement(this.dataset.argumentId, parseInt(this.dataset.premiseIndex));
+                    };
+                    
+                    // If user is logged in, check their voting status
+                    if (user) {
+                        Promise.all([
+                            checkUserEndorsement(argumentObj.id),
+                            checkUserDisagreement(argumentObj.id, index)
+                        ]).then(([hasEndorsed, hasDisagreed]) => {
+                            if (hasEndorsed) {
+                                // User endorsed, so disable disagree button
+                                disagreeButton.textContent = 'Already endorsed conclusion';
+                                disagreeButton.disabled = true;
+                                disagreeButton.style.backgroundColor = '#6c757d';
+                                disagreeButton.style.cursor = 'not-allowed';
+                                disagreeButton.onclick = null;
+                            } else if (hasDisagreed) {
+                                // User already disagreed with this premise
+                                disagreeButton.textContent = 'Remove Disagreement';
+                                disagreeButton.style.backgroundColor = '#6c757d';
+                                disagreeButton.onclick = function() {
+                                    removeDisagreement(this.dataset.argumentId, parseInt(this.dataset.premiseIndex));
+                                };
+                            }
+                        });
+                    }
+                    
+                    voteContainer.appendChild(disagreeButton);
+                    li.appendChild(voteContainer);
+                } else {
+                    const endorseButton = document.createElement('button');
+                    endorseButton.textContent = 'Endorse Conclusion';
+                    endorseButton.className = 'endorse-conclusion-button';
+                    endorseButton.dataset.argumentId = argumentObj.id;
+                    
+                    // Always set initial onclick to check authentication
+                    endorseButton.onclick = function() {
+                        const currentUser = firebase.auth().currentUser;
+                        if (!currentUser) {
+                            alert('You must be logged in to endorse the conclusion.');
+                            return;
+                        }
+                        updateEndorsement(this.dataset.argumentId);
+                    };
+                    
+                    // If user is logged in, check their voting status
+                    if (user) {
+                        Promise.all([
+                            checkUserEndorsement(argumentObj.id),
+                            checkUserAnyDisagreement(argumentObj.id)
+                        ]).then(([hasEndorsed, hasDisagreed]) => {
+                            if (hasDisagreed) {
+                                // User disagreed with a premise, so disable endorse button
+                                endorseButton.textContent = 'Already disagreed with premise';
+                                endorseButton.disabled = true;
+                                endorseButton.style.backgroundColor = '#6c757d';
+                                endorseButton.style.cursor = 'not-allowed';
+                                endorseButton.onclick = null;
+                            } else if (hasEndorsed) {
+                                // User already endorsed
+                                endorseButton.textContent = 'Remove Endorsement';
+                                endorseButton.style.backgroundColor = '#6c757d';
+                                endorseButton.onclick = function() {
+                                    removeEndorsement(this.dataset.argumentId);
+                                };
+                            }
+                        });
+                    }
+                    
+                    li.appendChild(document.createElement('br'));
+                    li.appendChild(endorseButton);
+                }
+
+                ol.appendChild(li);
+            });
+
+            argumentContentDiv.appendChild(ol);
+
+            // Display endorsement stats
+            const endorsementStats = document.createElement('div');
+            endorsementStats.className = 'endorsement-stats';
+            endorsementStats.textContent = `Endorsements: ${argumentObj.endorsements || 0} | Disagreements: ${argumentObj.disagreements || 0} | Endorsement Percentage: ${argumentObj.endorsementPercentage ? argumentObj.endorsementPercentage.toFixed(2) : 0}%`;
+
+            argumentDiv.appendChild(argumentHeader);
+            argumentDiv.appendChild(claimElement);
+            argumentDiv.appendChild(argumentContentDiv);
+            argumentDiv.appendChild(endorsementStats);
+
+            container.appendChild(argumentDiv);
         }
 
         function updateEndorsement(argumentId) {
@@ -2691,12 +3489,20 @@ if (!isInPalette && letter !== 'K') {
             // Set up ranking
             const rankingSelect = document.getElementById('rankingSelect');
             if (rankingSelect) {
-                rankingSelect.addEventListener('change', displayArguments);
+                rankingSelect.addEventListener('change', function() {
+                    // Reset the view when changing sort method
+                    window.availableArguments = null;
+                    window.shownArgumentIds = null;
+                    displayArguments();
+                });
             }
             
             // Initial calls
             populateFilterClaims();
-            displayArguments();
+            // Display a random argument by default
+            setTimeout(() => {
+                displayArguments();
+            }, 500);
         }
 
         // Auth state listener
@@ -2953,8 +3759,6 @@ if (!isInPalette && letter !== 'K') {
             e.preventDefault();
             // Stash the event so it can be triggered later
             deferredPrompt = e;
-            // Show install button
-            showInstallPromotion();
         });
         
         function showInstallPromotion() {
@@ -3087,8 +3891,6 @@ if (!isInPalette && letter !== 'K') {
             }
         }
         
-        // Show iOS instructions after a delay
-        setTimeout(showiOSInstallInstructions, 3000);
     </script>
 </body>
 </html>
